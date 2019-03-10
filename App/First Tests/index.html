@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+        <script src="./scripts/api.js"></script>
+        <script src="./scripts/apiCourse.js"></script>
+        <script src="./scripts/apiUser.js"></script>
+        <script src="index.js"></script>
+
+        <style>
+            .inputUpDown {
+                min-height: 48px;
+                border: 0;
+                border: 1px solid lightgrey;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                font-size: 20px;
+                margin-right: 2px;
+                line-height: 20px;
+                padding-right: 10px;
+                text-align: right;
+                color: grey;
+            }
+
+            .btnUpDown {
+                border: 1px solid white;
+                background-color: whitesmoke;
+                min-width: 48px;
+                min-height: 48px;
+                font-size: 20px;
+                line-height: 20px;
+                transition: 0.1s all linear;
+                color: grey;
+            }
+
+            .btnUpDown:hover {
+                transform: scale(1.02);
+                cursor: pointer;
+                background-color: lightgreen;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <h1>{{ message }}</h1>
+
+            <ntb name="teste"></ntb>
+        </div>
+
+        <template id="numericTextBoxTmpl">
+            <div style="display: flex;">
+                <input class="inputUpDown" :name="name" type="text" :value="currentValue">
+                <button class="btnUpDown" @click="currentValue--">-</button>
+                <button class="btnUpDown" @click="currentValue++">+</button>
+            </div>
+        </template>
+
+    </body>
+</html>
