@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+using Api.Interfaces;
+using Api.Models;
+
+namespace Api.EndPoint.Controllers
+{
+    [ApiController]
+    public class CourseController : Controller<Course>
+    {
+        public CourseController(ICourseService service): base(service) { }
+    }
+}
