@@ -263,6 +263,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
+
 # Visual Studio 6 build log
 *.plg
 
@@ -328,3 +329,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+App/node_modules/
+App/dist/
