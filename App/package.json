@@ -12,8 +12,10 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
+    "file-loader": "^3.0.1",
     "html-webpack-plugin": "^3.2.0",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.8",
@@ -22,6 +24,11 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
-    "vue": "^2.6.8"
+    "css-loader": "^2.1.1",
+    "restore": "^0.3.0",
+    "vue": "^2.6.8",
+    "vue-router": "^3.0.2",
+    "vue-style-loader": "^4.1.2",
+    "vuetify": "^1.5.6"
   }
 }
