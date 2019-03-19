@@ -51,17 +51,17 @@ class Api {
         }
 
         // se foi definido algum dado para enviar com a requisição
-        // se for do tipo post, adiciona como json no corpo da requisição
         // se for do tipo get, adiciona na url como query string
+        // senão, adiciona como json no corpo da requisição
         if(options.data) 
         {
-            if(request_type == requestTypes.POST)
+            if(request_type == requestTypes.GET)
             {
-                options.fetch_options.headers.set('Content-Type', 'application/json');
-                options.fetch_options.body = JSON.stringify(options.data);
+                options.url += this.createQueryString(options.data);
             }
             else {
-                options.url += this.createQueryString(options.data);
+                options.fetch_options.headers.set('Content-Type', 'application/json');
+                options.fetch_options.body = JSON.stringify(options.data);
             }
         }
 

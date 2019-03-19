@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-toolbar color="white" flat>
-          <v-btn icon light>
-            <v-icon color="grey darken-2">arrow_back</v-icon>
-          </v-btn>
+        <v-btn icon light>
+          <v-icon @click="$router.push('/user')">arrow_back</v-icon>
+        </v-btn>
 
-          <v-toolbar-title class="grey--text text--darken-4">Usuário</v-toolbar-title>
+        <v-toolbar-title class="grey--text text--darken-4">Usuário</v-toolbar-title>
     </v-toolbar>
 
       <v-container grid-list-sm class="pa-4">
@@ -30,7 +30,8 @@
               <v-switch v-model="user.professor" label="Professor"></v-switch>
             </v-flex>
           </v-layout>
-          <v-btn color="success" @click="createUser">Salvar</v-btn>
+          <v-btn v-if="this.user_id" color="success" @click="createUser">Salvar</v-btn>
+          <v-btn v-else color="success" @click="editUser">Salvar</v-btn>
         </div>
       </v-container>
   </div>
@@ -43,6 +44,9 @@
 
   export default {
     name: 'userCreate',
+    props: {
+        user_id: Number
+    },
     data: function() {
         return {
           user: {
@@ -57,11 +61,32 @@
         }
     },
     created() {
-        this.getUser(16);
+      if(this.user_id)
+      {
+        this.getUser(this.user_id);
+      }
     },
     methods: {
       createUser: function() {
-        apiUser.post({ data: this.user });
+        var vm = this;
+        apiUser.post({ 
+          data: this.user, 
+          success: () => { 
+            alert("Usuário salvo com sucesso")
+            vm.$router.push('/user') 
+          }
+        }); 
+      },
+      createUser: function() {
+        var vm = this;
+        apiUser.put({
+          data: this.user, 
+          path_params: [this.user.id],
+          success: () => { 
+            alert("Usuário editado com sucesso")
+            vm.$router.push('/user') 
+          }
+        }); 
       },
       getUser: function(id) {
         var vm = this;
