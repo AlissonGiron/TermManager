@@ -18,7 +18,7 @@ const routes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
     { path: '/user', component: User },
-    { path: '/user/create', component: userCreate },
+    { path: '/user/create', component: userCreate, name: "userCreate", props: true },
     { path: '*', redirect: '/' }
 ]
 
