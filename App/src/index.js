@@ -9,14 +9,14 @@ import User from "./components/user/User.vue"
 import userCreate from "./components/user/User.Create.vue"
 import Login from "./components/Login.vue"
 
-Vue.use(Layout)
+Vue.component('layout', Layout)
+Vue.component('login', Login)
 Vue.use(VueRouter)
 Vue.use(Vuetify)
-//Vue.use(Login)
 
 const routes = [
     { path: '/', component: Home },
-    { path: '/login', component: Login },
+    // { path: '/login', component: Login },
     { path: '/user', component: User },
     { path: '/user/create', component: userCreate, name: "userCreate", props: true },
     { path: '*', redirect: '/' }
@@ -29,8 +29,5 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     render: h => h(App),
-    router: router,
-    components: {
-        Login: Login
-    }
+    router: router
 })

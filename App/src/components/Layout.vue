@@ -41,6 +41,7 @@
 <script>
   export default {
     data: () => ({
+      name: 'layout',
       drawer: null,
       menu: [
         { icon: 'home', text: 'Início', route: '/' },
