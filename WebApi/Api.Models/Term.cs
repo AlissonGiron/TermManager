@@ -4,11 +4,9 @@ namespace Api.Models
 {
     public class Term: ModelBase
     {
-        public string SchoolYear { get; set; }
-        public int IdCourse { get; set; }
         public int SemesterNumber { get; set; }
+        public int Year { get; set; }
 
-        // TODO: n pra n
-        public List<Subject> Subjects { get; set; }
+        public List<TermCourse> Courses { get; set; }
     }
 }

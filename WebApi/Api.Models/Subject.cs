@@ -7,13 +7,13 @@ namespace Api.Models
         public string Code { get; set; }
         public string Name { get; set; }
 
-        public string IdTeacherTeachingPlan { get; set; }
-        public User TeacherTeachingPlan { get; set; }
+        public int IdTeacherTeachingPlan { get; set; }
+        public User ProfessorTeachingPlan { get; set; }
 
         public int TheoryWorkload { get; set; }
         public int PracticalWorkload { get; set; }
 
-        // TODO: fazer n pra n
-        public List<Course> Courses { get; set; }
+        public List<CourseSubject> Courses { get; set; }
+        public List<TermCourseSubject> Terms { get; set; }
     }
 }

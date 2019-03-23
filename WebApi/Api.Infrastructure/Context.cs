@@ -19,6 +19,11 @@ namespace Api.Infrastructure
         public DbSet<LessonPlan> LessonPlans { get; set; }
         public DbSet<SubjectCurriculum> SubjectCurriculums { get; set; }
 
+        public DbSet<TermCourse> TermCourses { get; set; }
+        public DbSet<TermCourseSubject> TermCourseSubjects { get; set; }
+        public DbSet<CourseSubject> CourseSubjects { get; set; }
+        public DbSet<CourseUser> CourseUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ApplyMappings(modelBuilder);
@@ -38,6 +43,11 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new ClassMap());
             modelBuilder.ApplyConfiguration(new LessonPlanMap());
             modelBuilder.ApplyConfiguration(new SubjectCurriculumMap());
+
+            modelBuilder.ApplyConfiguration(new TermCourseMap());
+            modelBuilder.ApplyConfiguration(new TermCourseSubjectMap());
+            modelBuilder.ApplyConfiguration(new CourseSubjectMap());
+            modelBuilder.ApplyConfiguration(new CourseUserMap());
         }
     }
 }

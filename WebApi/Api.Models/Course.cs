@@ -6,10 +6,13 @@ namespace Api.Models
     {
         public string Code { get; set; }
         public string Name { get; set; }
+
         public List<Goal> Goals { get; set; }
         public List<Competence> Competences { get; set; }
         public List<Skill> Skills { get; set; }
-        public List<User> Coordinators { get; set; }
-        public List<User> TeachersNDE { get; set; }
+
+        public List<CourseUser> Users { get; set; }
+        public List<CourseSubject> Subjects { get; set; }
+        public List<TermCourse> Terms { get; set; }
     }
 }

@@ -9,6 +9,9 @@ namespace Api.Infrastructure.Mappings
         public void Configure(EntityTypeBuilder<Class> builder)
         {
             builder.HasKey(s => s.Id);
+
+            builder.HasOne(s => s.Professor).WithMany(s => s.ProfessorClasses).HasForeignKey(s => s.IdProfessor);
+            builder.HasOne(s => s.TermCourseSubject).WithMany(s => s.Classes).HasForeignKey(s => s.IdTermCourseSubject);
         }
     }
 }
