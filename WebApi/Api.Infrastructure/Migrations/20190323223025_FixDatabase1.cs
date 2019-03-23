@@ -176,13 +176,13 @@ namespace Api.Infrastructure.Migrations
                         column: x => x.IdCourse,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CourseSubjects_Subjects_IdSubject",
                         column: x => x.IdSubject,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,13 +203,13 @@ namespace Api.Infrastructure.Migrations
                         column: x => x.IdCourse,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CourseUsers_Users_IdUser",
                         column: x => x.IdUser,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,13 +229,13 @@ namespace Api.Infrastructure.Migrations
                         column: x => x.IdCourse,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TermCourses_Terms_IdTerm",
                         column: x => x.IdTerm,
                         principalTable: "Terms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,13 +255,13 @@ namespace Api.Infrastructure.Migrations
                         column: x => x.IdSubject,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TermCourseSubjects_TermCourses_IdTermCourse",
                         column: x => x.IdTermCourse,
                         principalTable: "TermCourses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -340,7 +340,7 @@ namespace Api.Infrastructure.Migrations
                 column: "IdProfessor",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Classes_TermCourseSubjects_IdTermCourseSubject",
@@ -348,7 +348,7 @@ namespace Api.Infrastructure.Migrations
                 column: "IdTermCourseSubject",
                 principalTable: "TermCourseSubjects",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Competences_Courses_CourseId",
@@ -380,7 +380,7 @@ namespace Api.Infrastructure.Migrations
                 column: "IdTeacherTeachingPlan",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

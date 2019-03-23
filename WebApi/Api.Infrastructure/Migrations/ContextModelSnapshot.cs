@@ -296,12 +296,12 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.User", "Professor")
                         .WithMany("ProfessorClasses")
                         .HasForeignKey("IdProfessor")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Api.Models.TermCourseSubject", "TermCourseSubject")
                         .WithMany("Classes")
                         .HasForeignKey("IdTermCourseSubject")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.Competence", b =>
@@ -316,12 +316,12 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.Course", "Course")
                         .WithMany("Subjects")
                         .HasForeignKey("IdCourse")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Api.Models.Subject", "Subject")
                         .WithMany("Courses")
                         .HasForeignKey("IdSubject")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.CourseUser", b =>
@@ -329,12 +329,12 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.Course", "Course")
                         .WithMany("Users")
                         .HasForeignKey("IdCourse")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Api.Models.User", "User")
                         .WithMany("Courses")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.Goal", b =>
@@ -356,7 +356,7 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.User", "ProfessorTeachingPlan")
                         .WithMany("TeachingPlanResponsibleSubjects")
                         .HasForeignKey("IdTeacherTeachingPlan")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.TermCourse", b =>
@@ -364,12 +364,12 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.Course", "Course")
                         .WithMany("Terms")
                         .HasForeignKey("IdCourse")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Api.Models.Term", "Term")
                         .WithMany("Courses")
                         .HasForeignKey("IdTerm")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.TermCourseSubject", b =>
@@ -377,12 +377,12 @@ namespace Api.Infrastructure.Migrations
                     b.HasOne("Api.Models.Subject", "Subject")
                         .WithMany("Terms")
                         .HasForeignKey("IdSubject")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Api.Models.TermCourse", "Term")
                         .WithMany("Subjects")
                         .HasForeignKey("IdTermCourse")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -10,8 +10,8 @@ namespace Api.Infrastructure.Mappings
         {
             builder.HasKey(s => s.Id);
 
-            builder.HasOne(s => s.Term).WithMany(s => s.Subjects).HasForeignKey(s => s.IdTermCourse);
-            builder.HasOne(s => s.Subject).WithMany(s => s.Terms).HasForeignKey(s => s.IdSubject);
+            builder.HasOne(s => s.Term).WithMany(s => s.Subjects).HasForeignKey(s => s.IdTermCourse).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(s => s.Subject).WithMany(s => s.Terms).HasForeignKey(s => s.IdSubject).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
