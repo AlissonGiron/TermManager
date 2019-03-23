@@ -5,5 +5,4 @@ class User extends Api {
         super("User");
     }
 }
-
 export {User};

@@ -13,7 +13,6 @@
     :items="users"
     class="elevation-1"
     :hide-headers="isMobile" :class="{mobile: isMobile}">
-  >
     <template v-slot:items="users">
       <tr v-if="!isMobile">
           <td>{{ users.item.Name }}</td>
@@ -60,7 +59,7 @@
 
 <script>
 
-import {User} from "../../scripts/apiUser"
+import {User} from "../../scripts/api_user"
 var apiUser = new User();
 
 export default {
@@ -115,20 +114,4 @@ export default {
         color: #999;
       }
     }
-
-    /* .flex-content {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .flex-item {
-      padding: 5px;
-      width: 50%;
-      height: 40px;
-      font-weight: bold;
-    } */
 </style>

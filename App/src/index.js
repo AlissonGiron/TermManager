@@ -5,7 +5,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Home from "./components/Home.vue"
 import User from "./components/user/User.vue"
-import userCreate from "./components/user/User.Create.vue"
+import userDetails from "./components/user/User.Details.vue"
 
 Vue.use(VueRouter)
 Vue.use(Vuetify)
@@ -13,7 +13,7 @@ Vue.use(Vuetify)
 const routes = [
     { path: '/', component: Home },
     { path: '/user', component: User },
-    { path: '/user/create', component: userCreate, name: "userCreate", props: true },
+    { path: '/user/create', component: userDetails, name: "userDetails", props: true },
     { path: '*', redirect: '/' }
 ]
 
