@@ -12,7 +12,7 @@ namespace Api.EndPoint.Controllers
     [ApiController]
     public class Controller<T> : ControllerBase where T : ModelBase, new()
     {
-        private IServiceBase _service;
+        protected IServiceBase _service;
 
         public Controller(IServiceBase service)
         {
@@ -22,79 +22,89 @@ namespace Api.EndPoint.Controllers
         [HttpGet]
         public virtual IActionResult Get()
         {
-            var entities = _service.Read<T>();
-
-            return new JsonResult(entities, new JsonSerializerSettings() {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-        }
-
-        [HttpPost("filter")]
-        public virtual IActionResult Filter([FromBody] SlimQuery query)
-        {
-            var entities = _service.Read<T>();
-
-            return new JsonResult(entities, new JsonSerializerSettings() {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
+            return Read<T>();
         }
 
         [HttpGet("{id}")]
         public virtual IActionResult Get(int id)
         {
-            var entity = _service.FirstOrDefault<T>(t => t.Id == id);
-
-            return new JsonResult(entity);
+            return new JsonResult(_service.FirstOrDefault<T>(t => t.Id == id), new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
         }
 
         [HttpPost]
         public virtual IActionResult Post([FromBody] T entity)
         {
-            try {
-                _service.Create(entity);
-                _service.Save();
-
-                return Ok("Criado com sucesso");
-            }
-            catch(Exception ex) 
-            {
-                // Todo: Retornar uma mensagem de exceção melhor
-                return BadRequest(ex.Message);
-            }
+            return Create(entity);
         }
 
         [HttpPut("{id}")]
         public virtual IActionResult Put(int id, [FromBody] T entity)
         {
-            try {
-                entity.Id = id;
-
-                _service.Edit(entity);
-                _service.Save();
-
-                return Ok("Editado com sucesso");
-            }
-            catch(Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
+            entity.Id = id;
+            return Edit(entity);
         }
 
         [HttpDelete("{id}")]
         public virtual IActionResult Delete(int id)
         {
-            try {
-                var entity = _service.FirstOrDefault<T>(t => t.Id == id);
+            var entity = _service.FirstOrDefault<T>(t => t.Id == id);
+            return Delete(entity);
+        }
 
+        protected IActionResult Create<TItem>(TItem entity) where TItem : class, new()
+        {
+            try
+            {
+                _service.Create(entity);
+                _service.Save();
+
+                return Ok(entity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        protected IActionResult Edit<TItem>(TItem entity) where TItem : class, new()
+        {
+            try
+            {
+                _service.Edit(entity);
+                _service.Save();
+
+                return Ok("Editado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        protected IActionResult Delete<TItem>(TItem entity) where TItem : class, new()
+        {
+            try
+            {
                 _service.Delete(entity);
                 _service.Save();
 
                 return Ok("Deletado com sucesso");
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        protected IActionResult Read<TItem>(Query<TItem> query = null) where TItem : class, new()
+        {
+            return new JsonResult(_service.Read<TItem>(query), new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
         }
     }
 }

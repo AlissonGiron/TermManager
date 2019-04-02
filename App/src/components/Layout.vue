@@ -46,6 +46,9 @@
       menu: [
         { icon: 'home', text: 'Início', route: '/' },
         { icon: 'person', text: 'Usuários', route: '/user' },
+        { icon: 'person', text: 'Cursos', route: '/course' },
+        { icon: 'person', text: 'Semestres', route: '/term' },
+        { icon: 'person', text: 'Disciplinas', route: '/subject' },
         { icon: 'transit_enterexit', text: 'Sair', route: '/' }
       ]
     })

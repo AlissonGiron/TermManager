@@ -1,6 +1,8 @@
 class Options
 {
-    constructor(url, data, success, error, fetch_options, path_params) {
+    constructor(url, action, controller, data, success, error, fetch_options, path_params) {
+        this.action = action;
+        this.controller = controller;
         this.url = url;
         this.data = data;
         this.path_params = path_params; // vetor de valores, ex: [1,3,2] = url/1/3/2
@@ -30,10 +32,17 @@ class Api {
         if(!options.fetch_options) options.fetch_options = {};
         if(!options.fetch_options.headers) options.fetch_options.headers = new Headers();
 
-        let setOption = (field, trueCallback, falseCallback) => field ? trueCallback(field) : falseCallback(field);
+        if(!options.url)
+        {
+            options.url = this.api_url;
+        }
 
-        // se não tiver uma url definida, utiliza uma padrão
-        options.url = setOption(options.url, null, () => this.api_url + this.name);
+        options.url += (options.controller ? options.controller : this.name);
+        
+        if(options.action)
+        {
+            options.url = [options.url, options.action].join('/');
+        }
 
         // se for uma requisição de filtros, define a url e o tipo para POST
         if(request_type == requestTypes.FILTER) 
@@ -54,7 +63,7 @@ class Api {
         // se foi definido algum dado para enviar com a requisição
         // se for do tipo get, adiciona na url como query string
         // senão, adiciona como json no corpo da requisição
-        if(options.data) 
+        if(options.data)
         {
             if(request_type == requestTypes.GET)
             {

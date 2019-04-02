@@ -1,4 +1,4 @@
 <template>
-  <layout v-if="false" />
+  <layout v-if="true" />
   <login v-else />
 </template>

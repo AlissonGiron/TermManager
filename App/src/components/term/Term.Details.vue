@@ -11,26 +11,14 @@
       <v-container grid-list-sm class="pa-4">
         <div class="xs6">
           <v-layout id="fields" row wrap>
-            <v-flex xs12>
-              <v-text-field v-model="model.name" label="Nome"></v-text-field>
+            <v-flex xs6>
+              <v-text-field type="number" v-model="model.SemesterNumber" label="Número do Semestre"></v-text-field>
             </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="model.email" label="Email"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="model.academicTitle" label="Título"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.administrator" label="Administrador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.coordinator" label="Coordenador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.professor" label="Professor"></v-switch>
+            <v-flex xs6>
+              <v-text-field type="number" v-model="model.Year" label="Ano"></v-text-field>
             </v-flex>
           </v-layout>
-          <v-btn v-if="this.id" color="warning" @click="edit">Salvar</v-btn>
+          <v-btn v-if="this.id > 0" color="warning" @click="edit">Salvar</v-btn>
           <v-btn v-else color="success" @click="create">Salvar</v-btn>
         </div>
       </v-container>
@@ -38,31 +26,27 @@
 </template>
 
 <script>
-  import {User} from "../../scripts/api_user"
-  var api = new User();
+  import {Term} from "../../scripts/api_term"
+  var api = new Term();
 
   export default {
-    name: 'userDetails',
+    name: 'termDetails',
     props: {
         id: Number
     },
     data: function() {
-        return {
-          title: "Usuário",
-          gobackUrl: "/user",
-          model: {
-            id: 0,
-            name: '',
-            email: '',
-            academicTitle: '',
-            administrator: false,
-            coordinator: false,
-            professor: false
-          }
+      return {
+        title: "Semestre",
+        gobackUrl: "/term",
+        model: {
+          id: 0,
+          SemesterNumber: 0,
+          Year: 0,
         }
+      }
     },
     created() {
-      if(this.id)
+      if(this.id > 0)
       {
         this.getItem(this.id);
       }
@@ -72,9 +56,8 @@
         var vm = this;
         api.post({ 
           data: this.model,
-          success: () => { 
-            alert("Item salvo com sucesso");
-            vm.$router.push(vm.gobackUrl);
+          success: (data) => { 
+            vm.$router.push('/term/create/' + data.id)
           }
         });
       },

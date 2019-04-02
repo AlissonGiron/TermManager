@@ -12,25 +12,19 @@
         <div class="xs6">
           <v-layout id="fields" row wrap>
             <v-flex xs12>
-              <v-text-field v-model="model.name" label="Nome"></v-text-field>
+              <v-text-field v-model="model.Code" label="Código"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field v-model="model.email" label="Email"></v-text-field>
+              <v-text-field v-model="model.Name" label="Nome"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field v-model="model.academicTitle" label="Título"></v-text-field>
+              <v-text-field v-model="model.TheoryWorkLoad" label="Carga Horária (Teoria)"></v-text-field>
             </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.administrator" label="Administrador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.coordinator" label="Coordenador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.professor" label="Professor"></v-switch>
+            <v-flex xs12>
+              <v-text-field v-model="model.PracticalWorload" label="Carga Horária (Prática)"></v-text-field>
             </v-flex>
           </v-layout>
-          <v-btn v-if="this.id" color="warning" @click="edit">Salvar</v-btn>
+          <v-btn v-if="this.id > 0" color="warning" @click="edit">Salvar</v-btn>
           <v-btn v-else color="success" @click="create">Salvar</v-btn>
         </div>
       </v-container>
@@ -38,31 +32,29 @@
 </template>
 
 <script>
-  import {User} from "../../scripts/api_user"
-  var api = new User();
+  import {Subject} from "../../scripts/api_subject"
+  var api = new Subject();
 
   export default {
-    name: 'userDetails',
+    name: 'subjectDetails',
     props: {
         id: Number
     },
     data: function() {
         return {
-          title: "Usuário",
-          gobackUrl: "/user",
+          title: "Disciplina",
+          gobackUrl: "/subject",
           model: {
             id: 0,
-            name: '',
-            email: '',
-            academicTitle: '',
-            administrator: false,
-            coordinator: false,
-            professor: false
+            Name: '',
+            Code: '',
+            TheoryWorkload: 0,
+            PracticalWorkload: 0,
           }
         }
     },
     created() {
-      if(this.id)
+      if(this.id > 0)
       {
         this.getItem(this.id);
       }
