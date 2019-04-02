@@ -9,6 +9,8 @@ namespace Api.Infrastructure.Mappings
         public void Configure(EntityTypeBuilder<Skill> builder)
         {
             builder.HasKey(s => s.Id);
+
+            builder.HasOne(s => s.Course).WithMany(s => s.Skills).HasForeignKey(s => s.IdCourse).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

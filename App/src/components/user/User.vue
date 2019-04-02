@@ -22,7 +22,7 @@
           <td><br><v-switch v-model='users.item.Coordinator' readonly></v-switch></td>
           <td><br><v-switch v-model='users.item.Professor' readonly></v-switch></td>
           <td>
-            <router-link :to="{ name: 'userCreate', params: { user_id: users.item.Id } }"><v-icon>edit</v-icon></router-link>
+            <router-link :to="{ name: 'userDetails', params: { id: users.item.Id } }"><v-icon>edit</v-icon></router-link>
           </td>
           <td>
               <v-icon @click="deleteItem(users.item)">delete</v-icon>

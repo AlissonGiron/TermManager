@@ -7,6 +7,10 @@ import Layout from "./components/Layout.vue"
 import Home from "./components/Home.vue"
 import User from "./components/user/User.vue"
 import userDetails from "./components/user/User.Details.vue"
+
+import Course from "./components/course/Course.vue"
+import courseDetails from "./components/course/Course.Details.vue"
+
 import Login from "./components/Login.vue"
 
 Vue.component('layout', Layout)
@@ -19,6 +23,8 @@ const routes = [
     // { path: '/login', component: Login },
     { path: '/user', component: User },
     { path: '/user/create', component: userDetails, name: "userDetails", props: true },
+    { path: '/course', component: Course },
+    { path: '/course/create/:id', component: courseDetails, name: "courseDetails", props: true },
     { path: '*', redirect: '/' }
 ]
 

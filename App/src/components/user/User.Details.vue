@@ -30,8 +30,8 @@
               <v-switch v-model="model.professor" label="Professor"></v-switch>
             </v-flex>
           </v-layout>
-          <v-btn v-if="this.id" color="success" @click="create">Salvar</v-btn>
-          <v-btn v-else color="success" @click="edit">Salvar</v-btn>
+          <v-btn v-if="this.id" color="warning" @click="edit">Salvar</v-btn>
+          <v-btn v-else color="success" @click="create">Salvar</v-btn>
         </div>
       </v-container>
   </div>
@@ -73,7 +73,7 @@
         api.post({ 
           data: this.model,
           success: () => { 
-            alert("Item salvo com sucesso")
+            alert("Item salvo com sucesso");
             vm.$router.push(vm.gobackUrl);
           }
         });
@@ -81,10 +81,10 @@
       edit: function() {
         var vm = this;
         api.put({
-          data: this.obj, 
+          data: this.model, 
           path_params: [this.model.id],
           success: () => { 
-            alert("Item editado com sucesso")
+            alert("Item editado com sucesso");
             vm.$router.push(vm.gobackUrl);
           }
         }); 
