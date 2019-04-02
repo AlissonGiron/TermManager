@@ -237,12 +237,7 @@
           competences: [],
           goals: [],
           selected_disciplines: [],
-          disciplines: [
-            { id: 10, name: "Matemática" },
-            { id: 11, name: "Física" },
-            { id: 12, name: "Português" },
-            { id: 13, name: "História" },
-          ],
+          disciplines: [],
           skill: { Description: '' },
           competence: { Description: '' },
           goal: { Description: '' },
@@ -271,19 +266,22 @@
         });
       },
       remove (item) {
-        const index = this.selected_disciplines.indexOf(item.name)
+        const index = this.selected_disciplines.indexOf(item.id)
         if (index >= 0) this.selected_disciplines.splice(index, 1)
       },
       edit: function() {
         var vm = this;
-        api.put({
-          data: this.model, 
-          path_params: [this.id],
-          success: () => { 
-            alert("Item editado com sucesso");
-            vm.$router.push(vm.gobackUrl);
-          }
-        }); 
+        api.saveSubjects(this.id, this.selected_disciplines, (data) => 
+        { 
+          api.put({
+            data: vm.model, 
+            path_params: [vm.id],
+            success: () => { 
+              alert("Item editado com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          }); 
+        })
       },
       getItem: function(id) {
         var vm = this;
@@ -293,11 +291,26 @@
             vm.readSkills();
             vm.readGoals();
             vm.readCompetences();
+            vm.readSubjects();
+
+            api.readSubjects(vm.id, (data) => 
+            { 
+              vm.selected_disciplines = data.map(function(e) { return e.Id; }) 
+            })
         }});
       },
       goback: function() {
         var vm = this;
         this.$router.push(vm.gobackUrl);
+      },
+
+      // subjects
+      readSubjects: function() {
+        var vm = this;
+        api.readSubjects(0, (data) => 
+        { 
+          vm.disciplines = data.map(function(e) { return { id: e.Id, name: [e.Code, e.Name].join(" | ") } }) 
+        })
       },
 
       // skills
@@ -311,7 +324,6 @@
          this.dialog_Skill = true;
       },
       saveSkill: function() {
-        debugger
         if(!this.skill_valid) return;
 
         var vm = this;

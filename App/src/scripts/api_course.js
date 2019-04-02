@@ -5,6 +5,17 @@ class Course extends Api {
         super("Course");
     }
 
+    // Subjects
+    readSubjects = (idCourse, onSuccess) => this.get({ path_params: [idCourse], action: "CourseSubject", success: onSuccess});
+    saveSubjects = (idCourse, idSubjects, onSuccess) => { 
+        var subjects = [];
+
+        idSubjects.forEach(function(e) {
+            subjects.push(e);            
+        })
+
+        this.put({ action: "CourseSubject", path_params: [idCourse], data: subjects, success: onSuccess});
+    }
     // Skill
     readSkills = (idCourse, onSuccess) => this.get({ action: "CourseSkill", path_params: [idCourse], success: onSuccess});
     createSkill = (idCourse, skill, onSuccess) => this.post({ action: "CourseSkill", path_params: [idCourse], data: skill, success: onSuccess});

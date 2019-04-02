@@ -2,13 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Api.Interfaces;
 using Api.Models;
 using Api.Infrastructure.Helpers;
+using System.Linq;
 
 namespace Api.EndPoint.Controllers
 {
     [ApiController]
     public class CourseController : Controller<Course>
     {
+        ICourseService service => (ICourseService)_service;
+
         public CourseController(ICourseService service): base(service) { }
+
+        [HttpGet("CourseSubject/{id}")]
+        public virtual IActionResult ReadSubject(int id) => Read(new Query<Subject>().Filter(s => id > 0 ? s.Courses.Any(v => v.IdCourse == id) : true).Track(false));
+
+        [HttpPut("CourseSubject/{id}")]
+        public virtual IActionResult SaveSubjects(int id, [FromBody] int[] subjects) => Ok(service.SaveSubjects(id, subjects));
 
         // Skill
 

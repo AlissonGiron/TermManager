@@ -15,7 +15,6 @@ namespace Api.Interfaces
 
         int Count<T>(Query<T> query = null) where T: class, new();
         int Count<T>(Expression<Func<T, bool>> filter) where T: class, new();
-        
         void Create<T>(T entity) where T: class, new();
         void Edit<T>(T entity) where T: class, new();
         void Delete<T>(T entity) where T: class, new();
