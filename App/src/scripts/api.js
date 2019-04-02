@@ -14,6 +14,7 @@ class Api {
     constructor(name) {
         this.name = name;
         this.api_url = "https://localhost:44320/api/";
+        this.jwt_token = "";
     }
 
     get = options => this.doRequest(this.createValidOptions(requestTypes.GET, options));

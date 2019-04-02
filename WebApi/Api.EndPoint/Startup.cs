@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using Api.Infrastructure;
 using Api.Interfaces;
 using Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Api.EndPoint
 {
@@ -47,6 +50,21 @@ namespace Api.EndPoint
             services.AddScoped<ILessonPlanService, LessonPlanService>();
             services.AddScoped<ISubjectCurriculumService, SubjectCurriculumService>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -66,9 +84,10 @@ namespace Api.EndPoint
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowCredentials()); 
+                .AllowCredentials());
 
-            //app.UseHttpsRedirection();
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }
