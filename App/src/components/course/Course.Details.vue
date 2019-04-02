@@ -29,6 +29,9 @@
 
         <v-tabs v-if="this.id > 0" dark slider-color="orange">
           <v-tab ripple>
+            Disciplinas
+          </v-tab>
+          <v-tab>
             Habilidades
           </v-tab>
           <v-tab>
@@ -37,6 +40,23 @@
           <v-tab>
             Competências
           </v-tab>
+          
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                 <v-autocomplete v-model="selected_disciplines" :items="disciplines" multiple label="Disciplinas" item-text="name" item-value="id">
+                    <template v-slot:selection="data">
+                      <v-chip :selected="data.selected" close class="chip--select-multi" @input="remove(data.item)">
+                        {{ data.item.name }}
+                      </v-chip>
+                    </template>
+                    <template v-slot:item="data">
+                        <v-list-tile-content v-text="data.item.name"></v-list-tile-content>
+                    </template>
+                  </v-autocomplete>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
           
           <v-tab-item>
             <v-card flat>
@@ -59,7 +79,6 @@
             </v-card>
           </v-tab-item>
 
-          
           <v-tab-item>
             <v-card flat>
               <v-card-text>
@@ -80,7 +99,6 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          
           
           <v-tab-item>
             <v-card flat>
@@ -161,7 +179,7 @@
       </v-dialog>
     </v-layout>
 
-        <v-layout row justify-center>
+    <v-layout row justify-center>
       <v-dialog v-model="dialog_Competence" persistent max-width="600px">
         <v-card>
           <v-card-title>
@@ -218,6 +236,13 @@
           skills: [],
           competences: [],
           goals: [],
+          selected_disciplines: [],
+          disciplines: [
+            { id: 10, name: "Matemática" },
+            { id: 11, name: "Física" },
+            { id: 12, name: "Português" },
+            { id: 13, name: "História" },
+          ],
           skill: { Description: '' },
           competence: { Description: '' },
           goal: { Description: '' },
@@ -244,6 +269,10 @@
             vm.$router.push('/course/create/' + data.id)
           }
         });
+      },
+      remove (item) {
+        const index = this.selected_disciplines.indexOf(item.name)
+        if (index >= 0) this.selected_disciplines.splice(index, 1)
       },
       edit: function() {
         var vm = this;
@@ -282,6 +311,7 @@
          this.dialog_Skill = true;
       },
       saveSkill: function() {
+        debugger
         if(!this.skill_valid) return;
 
         var vm = this;
