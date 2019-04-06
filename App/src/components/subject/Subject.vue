@@ -10,7 +10,7 @@
     <v-btn color="success" @click="$router.push('/subject/create/0')"><v-icon>add</v-icon> Novo</v-btn>
   <v-data-table
     :headers="headers"
-    :items="users"
+    :items="subjects"
     class="elevation-1"
     :hide-headers="isMobile" :class="{mobile: isMobile}">
     <template v-slot:items="subjects">
@@ -20,7 +20,7 @@
           <td>{{ subjects.item.TheoryWorkload }}</td>
           <td>{{ subjects.item.PracticalWorkload }}</td>
           <td>
-            <v-btn color="warning" @click="$router.push('/suject/create/' + subjects.item.Id)"><v-icon>edit</v-icon></v-btn>
+            <v-btn color="warning" @click="$router.push('/subject/create/' + subjects.item.Id)"><v-icon>edit</v-icon></v-btn>
           </td>
           <td>
             <v-btn color="error" @click="deleteItem(subjects.item)"><v-icon>delete</v-icon></v-btn>
@@ -64,6 +64,8 @@ export default {
                 { text: 'Nome', value: 'Name' },
                 { text: 'Carga Horária (Teoria)', value: 'TheoryWorkload' },
                 { text: 'Carga Horária (Prática)', value: 'PracticalWorkload' },
+                { text: '', value: '' },
+                { text: '', value: '' },
             ],
             title: 'Disciplinas',
             subjects: []

@@ -7,7 +7,7 @@
 
       <v-toolbar-title class="grey--text text--darken-4">Usuários</v-toolbar-title>
     </v-toolbar>
-    <v-btn color="success" @click="$router.push('/user/create')"><v-icon>add</v-icon> Novo</v-btn>
+    <v-btn color="success" @click="$router.push('/user/create/0')"><v-icon>add</v-icon> Novo</v-btn>
   <v-data-table
     :headers="headers"
     :items="users"
@@ -15,18 +15,17 @@
     :hide-headers="isMobile" :class="{mobile: isMobile}">
     <template v-slot:items="users">
       <tr v-if="!isMobile">
-          <td>{{ users.item.Name }}</td>
-          <td>{{ users.item.Email }}</td>
-          <td>{{ users.item.AcademicTitle }}</td>
-          <td><br><v-switch v-model='users.item.Administrator' readonly></v-switch></td>
-          <td><br><v-switch v-model='users.item.Coordinator' readonly></v-switch></td>
-          <td><br><v-switch v-model='users.item.Professor' readonly></v-switch></td>
-          <td>
-            <router-link :to="{ name: 'userDetails', params: { id: users.item.Id } }"><v-icon>edit</v-icon></router-link>
-          </td>
-          <td>
-              <v-icon @click="deleteItem(users.item)">delete</v-icon>
-          </td>
+        <td>{{ users.item.Name }}</td>
+        <td>{{ users.item.AcademicTitle }}</td>
+        <td><br><v-switch v-model='users.item.Administrator' readonly></v-switch></td>
+        <td><br><v-switch v-model='users.item.Coordinator' readonly></v-switch></td>
+        <td><br><v-switch v-model='users.item.Professor' readonly></v-switch></td>
+        <td>
+          <v-btn color="warning" @click="$router.push('/user/create/' + users.item.Id)"><v-icon>edit</v-icon></v-btn>
+        </td>
+        <td>
+          <v-btn color="error" @click="deleteItem(users.item)"><v-icon>delete</v-icon></v-btn>
+        </td>
       </tr>
       <tr v-else>
         <td>
@@ -69,7 +68,6 @@ export default {
             isMobile: false,
             headers: [
                 { text: 'Nome', value: 'Name' },
-                { text: 'Email', value: 'Email' },
                 { text: 'Título', value: 'AcademicTitle' },
                 { text: 'Administrador', value: 'Administrator' },
                 { text: 'Coordenador', value: 'Coordinator' },

@@ -8,32 +8,51 @@
         <v-toolbar-title class="grey--text text--darken-4">{{ title }}</v-toolbar-title>
     </v-toolbar>
 
-      <v-container grid-list-sm class="pa-4">
+      <v-container style='background-color: white;' grid-list-sm class="pa-4">
         <div class="xs6">
-          <v-layout id="fields" row wrap>
-            <v-flex xs12>
-              <v-text-field v-model="model.name" label="Nome"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="model.email" label="Email"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field v-model="model.academicTitle" label="Título"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.administrator" label="Administrador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.coordinator" label="Coordenador"></v-switch>
-            </v-flex>
-            <v-flex xs4>
-              <v-switch v-model="model.professor" label="Professor"></v-switch>
-            </v-flex>
-          </v-layout>
-          <v-btn v-if="this.id" color="warning" @click="edit">Salvar</v-btn>
+          <v-form ref="form">
+            <v-layout id="fields" row wrap>
+              <v-flex xs12>
+                <v-text-field v-model="model.Name" label="Nome" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="model.Email" label="Email" :validate-on-blur='true' :rules="[(v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail inválido']"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="model.AcademicTitle" label="Título" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+              <br>
+              <p>Grupos do Usuário</p>
+              </v-flex>
+              <v-flex xs4>
+                <v-switch v-model="model.Administrator" label="Administrador"></v-switch>
+              </v-flex>
+              <v-flex xs4>
+                <v-switch v-model="model.Coordinator" label="Coordenador"></v-switch>
+              </v-flex>
+              <v-flex xs4>
+                <v-switch v-model="model.Professor" label="Professor"></v-switch>
+              </v-flex>
+            </v-layout>
+            <br>
+          </v-form>
+          <v-btn v-if="parseInt(this.id) > 0" color="warning" @click="edit">Salvar</v-btn>
           <v-btn v-else color="success" @click="create">Salvar</v-btn>
         </div>
       </v-container>
+
+
+    <v-snackbar v-model="snackbar"
+      :multi-line="true"
+      color="red"
+      :timeout="5000"
+    >
+      Selecione pelo menos um grupo para o usuário
+      <v-btn dark flat @click="snackbar = false">
+        Ok
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -44,31 +63,42 @@
   export default {
     name: 'userDetails',
     props: {
-        id: Number
+        id: String
     },
     data: function() {
         return {
           title: "Usuário",
           gobackUrl: "/user",
+          snackbar: false,
           model: {
-            id: 0,
-            name: '',
-            email: '',
-            academicTitle: '',
-            administrator: false,
-            coordinator: false,
-            professor: false
+            Id: 0,
+            Name: '',
+            Email: '',
+            AcademicTitle: '',
+            Administrator: false,
+            Coordinator: false,
+            Professor: false
           }
         }
     },
     created() {
-      if(this.id)
+      if(parseInt(this.id) > 0)
       {
-        this.getItem(this.id);
+        this.getItem(parseInt(this.id));
       }
     },
     methods: {
       create: function() {
+        var isValid = this.$refs.form.validate();
+
+        if(!this.model.Administrator && !this.model.Professor && !this.model.Coordinator)
+        {
+          this.snackbar = true;
+          isValid = false;
+        }
+        
+        if(!isValid) return;
+
         var vm = this;
         api.post({ 
           data: this.model,
@@ -79,15 +109,25 @@
         });
       },
       edit: function() {
+        var isValid = this.$refs.form.validate();
+
+        if(!this.model.Administrator && !this.model.Professor && !this.model.Coordinator)
+        {
+          this.snackbar = true;
+          isValid = false;
+        }
+        
+        if(!isValid) return;
+
         var vm = this;
         api.put({
           data: this.model, 
-          path_params: [this.model.id],
+          path_params: [this.model.Id],
           success: () => { 
             alert("Item editado com sucesso");
             vm.$router.push(vm.gobackUrl);
           }
-        }); 
+        });
       },
       getItem: function(id) {
         var vm = this;

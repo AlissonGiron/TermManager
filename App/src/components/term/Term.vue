@@ -55,8 +55,8 @@ export default {
             headers: [
                 { text: 'Número do Semestre', value: 'SemesterNumber' },
                 { text: 'Ano', value: 'Year' },
-                { text: 'Editar', value: '1' },
-                { text: 'Excluir', value: '0' },
+                { text: '', value: '' },
+                { text: '', value: '' },
             ],
             title: 'Semestres',
             terms: []

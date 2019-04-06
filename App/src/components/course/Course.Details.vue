@@ -10,7 +10,7 @@
 
     <v-container style='background-color: white;' class="pa-4">
       <div class="xs6">
-        <v-form v-model="valid">
+        <v-form ref="form" v-model="valid">
           <v-layout id="fields" row wrap>
               <v-flex xs12>
                 <v-text-field v-model="model.Code" 
@@ -27,7 +27,7 @@
           </v-layout>
         </v-form>
 
-        <v-tabs v-if="this.id > 0" dark slider-color="orange">
+        <v-tabs v-if="parseInt(this.id) > 0" dark slider-color="orange">
           <v-tab ripple>
             Disciplinas
           </v-tab>
@@ -122,7 +122,7 @@
           </v-tab-item>
         </v-tabs>
 
-        <v-btn v-if="this.id > 0" color="warning" @click="edit">Editar</v-btn>
+        <v-btn v-if="parseInt(this.id) > 0" color="warning" @click="edit">Editar</v-btn>
         <v-btn v-else color="success" @click="create">Salvar</v-btn>
       </div>
     </v-container>
@@ -215,7 +215,7 @@
   export default {
     name: 'courseDetails',
     props: {
-        id: Number
+        id: String
     },
     data: function() {
         return {
@@ -248,15 +248,32 @@
           }
         }
     },
-    created() {
-      if(this.id > 0)
-      {
-        this.getItem(this.id);
+    watch: {
+      selected_disciplines: function(current, old) {
+        api.saveSubjects(this.id, current, null);
       }
+    },
+    mounted() {
+      var vm = this;
+
+      if(parseInt(vm.id) > 0)
+      {
+        vm.getItem(vm.id);
+        
+        api.readSubjects(vm.id, (data) => 
+        { 
+          vm.selected_disciplines = data.map(function(e) { return e.Id; }) 
+        })
+      }
+      else {
+        this.readSubjects();
+      }
+
     },
     methods: {
       create: function() {
-        if(!this.valid) return;
+        if(!this.$refs.form.validate()) return;
+
         var vm = this;
         api.post({ 
           data: this.model,
@@ -270,6 +287,8 @@
         if (index >= 0) this.selected_disciplines.splice(index, 1)
       },
       edit: function() {
+        if(!this.$refs.form.validate()) return;
+
         var vm = this;
         api.saveSubjects(this.id, this.selected_disciplines, (data) => 
         { 
@@ -292,11 +311,6 @@
             vm.readGoals();
             vm.readCompetences();
             vm.readSubjects();
-
-            api.readSubjects(vm.id, (data) => 
-            { 
-              vm.selected_disciplines = data.map(function(e) { return e.Id; }) 
-            })
         }});
       },
       goback: function() {
@@ -395,7 +409,7 @@
       deleteCompetence: function(id) {
         var vm = this;
         api.deleteCompetence(id, (data) => { vm.readCompetences() })
-      },
+      }
     }
   }
 </script>
