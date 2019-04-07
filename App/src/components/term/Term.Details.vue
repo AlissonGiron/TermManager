@@ -8,7 +8,7 @@
         <v-toolbar-title class="grey--text text--darken-4">{{ title }}</v-toolbar-title>
     </v-toolbar>
 
-      <v-container grid-list-sm class="pa-4">
+      <v-container style='background-color: white;'  grid-list-sm class="pa-4">
         <div class="xs6">
           <v-layout id="fields" row wrap>
             <v-flex xs6>
@@ -53,6 +53,8 @@
     },
     methods: {
       create: function() {
+        if(!this.$refs.form.validate()) return;
+
         var vm = this;
         api.post({ 
           data: this.model,
@@ -62,6 +64,8 @@
         });
       },
       edit: function() {
+        if(!this.$refs.form.validate()) return;
+
         var vm = this;
         api.put({
           data: this.model, 

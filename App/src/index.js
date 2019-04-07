@@ -29,7 +29,7 @@ const routes = [
     { path: '/', component: Home },
     // { path: '/login', component: Login },
     { path: '/user', component: User },
-    { path: '/user/create', component: userDetails, name: "userDetails", props: true },
+    { path: '/user/create/:id', component: userDetails, name: "userDetails", props: true },
     { path: '/course', component: Course },
     { path: '/course/create/:id', component: courseDetails, name: "courseDetails", props: true },
     { path: '/term', component: Term },

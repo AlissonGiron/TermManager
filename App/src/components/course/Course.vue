@@ -55,8 +55,8 @@ export default {
             headers: [
                 { text: 'Código', value: 'Code' },
                 { text: 'Nome', value: 'Name' },
-                { text: 'Editar', value: 'Edit' },
-                { text: 'Excluir', value: 'Delete' },
+                { text: '', value: '' },
+                { text: '', value: '' },
             ],
             title: 'Cursos',
             courses: []
