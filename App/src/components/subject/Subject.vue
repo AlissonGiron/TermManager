@@ -46,6 +46,18 @@
       </tr>
     </template>
   </v-data-table>
+
+     <v-snackbar v-model="snackbar"
+        :multi-line="true"
+        color="red"
+        :timeout="5000"
+      >
+      {{errorMessage}}
+      <v-btn dark flat @click="snackbar = false">
+        Ok
+      </v-btn>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -68,7 +80,9 @@ export default {
                 { text: '', value: '' },
             ],
             title: 'Disciplinas',
-            subjects: []
+            subjects: [],
+            errorMessage: '',
+            snackbar: false,
         };
     },
     beforeMount() {
@@ -83,7 +97,13 @@ export default {
           if(confirm("Deseja realmente excluir esse item?"))
           {
             var vm = this;
-            api.delete({ path_params: [item.Id], success: () => vm.getSubjects() });
+            api.delete({ path_params: [item.Id], 
+              success: (s) => vm.getSubjects(),
+              error: function(s, i) {
+                vm.errorMessage = s;
+                vm.snackbar = true;
+              }
+            });
           } 
         }
     }

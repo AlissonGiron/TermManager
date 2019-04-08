@@ -20,10 +20,10 @@
               <v-text-field v-model="model.Name" label="Nome" :validate-on-blur='true' :rules="[() => !!model.Name || 'Esse campo é obrigatório']"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field type="number" v-model="model.TheoryWorkload" label="Carga Horária (Teoria)"></v-text-field>
+              <v-text-field type="number" v-model="model.TheoryWorkload" label="Carga Horária (Teoria)" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field type="number" v-model="model.PracticalWorkload" label="Carga Horária (Prática)"></v-text-field>
+              <v-text-field type="number" v-model="model.PracticalWorkload" label="Carga Horária (Prática)" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
             </v-flex>
             <v-flex xs12>
               <br>
@@ -49,7 +49,7 @@
         color="red"
         :timeout="5000"
       >
-        Selecione um professor responsável pelo plano de ensino
+        {{snackbarCurrentMessage}}
         <v-btn dark flat @click="snackbar = false">
           Ok
         </v-btn>
@@ -71,6 +71,8 @@
           title: "Disciplina",
           gobackUrl: "/subject",
           snackbar: false,
+          snackbarCurrentMessage: '',
+          snackbarMessages: ["Selecione um professor responsável pelo plano de ensino", "Já existe uma disciplina com esse código"],
           model: {
             id: 0,
             Name: '',
@@ -101,6 +103,7 @@
 
         if(this.model.IdTeacherTeachingPlan == 0)
         {
+          this.snackbarCurrentMessage = this.snackbarMessages[0];
           this.snackbar = true;
           isValid = false;
         }
@@ -108,19 +111,30 @@
         if(!isValid) return;
 
         var vm = this;
-        api.post({ 
-          data: this.model,
-          success: () => { 
-            alert("Item salvo com sucesso");
-            vm.$router.push(vm.gobackUrl);
+
+        api.checkCodeExists(0, this.model.Code, function(status) {
+          if(status)
+          {
+             vm.snackbarCurrentMessage = vm.snackbarMessages[1];
+             vm.snackbar = true;
+             return;
           }
-        });
+          
+          api.post({ 
+            data: vm.model,
+            success: () => { 
+              alert("Item salvo com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          });
+        })
       },
       edit: function() {
         var isValid = this.$refs.form.validate();
 
         if(this.model.IdTeacherTeachingPlan == 0)
         {
+          this.snackbarCurrentMessage = this.snackbarMessages[0];
           this.snackbar = true;
           isValid = false;
         }
@@ -128,14 +142,23 @@
         if(!isValid) return;
 
         var vm = this;
-        api.put({
-          data: this.model, 
-          path_params: [this.model.Id],
-          success: () => { 
-            alert("Item editado com sucesso");
-            vm.$router.push(vm.gobackUrl);
+        api.checkCodeExists(this.model.Id, this.model.Code, function(status) {
+          if(status)
+          {
+             vm.snackbarCurrentMessage = vm.snackbarMessages[1];
+             vm.snackbar = true;
+             return;
           }
-        }); 
+          
+          api.put({
+            data: vm.model, 
+            path_params: [vm.model.Id],
+            success: () => { 
+              alert("Item editado com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          }); 
+        })
       },
       readProfessors: function(id) {
         var vm = this;

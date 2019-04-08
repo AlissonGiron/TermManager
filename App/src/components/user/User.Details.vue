@@ -22,6 +22,13 @@
                 <v-text-field v-model="model.AcademicTitle" label="Título" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
               </v-flex>
               <v-flex xs12>
+                <v-text-field type="password" v-model="model.Password" label="Senha" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field type="password" label="Confirmar Senha" :validate-on-blur='true' :rules="[(v) => v == model.Password || 'As senhas não são iguais']"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12>
               <br>
               <p>Grupos do Usuário</p>
               </v-flex>
@@ -48,7 +55,7 @@
       color="red"
       :timeout="5000"
     >
-      Selecione pelo menos um grupo para o usuário
+      {{snackbarCurrentMessage}}
       <v-btn dark flat @click="snackbar = false">
         Ok
       </v-btn>
@@ -70,10 +77,13 @@
           title: "Usuário",
           gobackUrl: "/user",
           snackbar: false,
+          snackbarCurrentMessage: '',
+          snackbarMessages: ["Já existe um usuário com esse nome no sistema", "Selecione pelo menos um grupo para o usuário"],
           model: {
             Id: 0,
             UserName: '',
             Email: '',
+            Password: '',
             AcademicTitle: '',
             Administrator: false,
             Coordinator: false,
@@ -93,6 +103,7 @@
 
         if(!this.model.Administrator && !this.model.Professor && !this.model.Coordinator)
         {
+          this.snackbarCurrentMessage = this.snackbarMessages[1];
           this.snackbar = true;
           isValid = false;
         }
@@ -100,19 +111,30 @@
         if(!isValid) return;
 
         var vm = this;
-        api.post({ 
-          data: this.model,
-          success: () => { 
-            alert("Item salvo com sucesso");
-            vm.$router.push(vm.gobackUrl);
+
+        api.checkUsernameExists(0, this.model.Name, function(status) {
+          if(status)
+          {
+             vm.snackbarCurrentMessage = vm.snackbarMessages[0];
+             vm.snackbar = true;
+             return;
           }
-        });
+          
+          api.post({ 
+            data: vm.model,
+            success: () => { 
+              alert("Item salvo com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          });
+        })
       },
       edit: function() {
         var isValid = this.$refs.form.validate();
 
         if(!this.model.Administrator && !this.model.Professor && !this.model.Coordinator)
         {
+          this.snackbarCurrentMessage = this.snackbarMessages[1];
           this.snackbar = true;
           isValid = false;
         }
@@ -120,14 +142,24 @@
         if(!isValid) return;
 
         var vm = this;
-        api.put({
-          data: this.model, 
-          path_params: [this.model.Id],
-          success: () => { 
-            alert("Item editado com sucesso");
-            vm.$router.push(vm.gobackUrl);
+
+        api.checkUsernameExists(this.model.Id, this.model.Name, function(status) {
+          if(status)
+          {
+             vm.snackbarCurrentMessage = vm.snackbarMessages[0];
+             vm.snackbar = true;
+             return;
           }
-        });
+          
+          api.put({
+            data: vm.model, 
+            path_params: [vm.model.Id],
+            success: () => { 
+              alert("Item editado com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          });
+        })
       },
       getItem: function(id) {
         var vm = this;

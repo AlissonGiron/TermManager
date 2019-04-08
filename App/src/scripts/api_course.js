@@ -5,6 +5,8 @@ class Course extends Api {
         super("Course");
     }
 
+    checkCodeExists = (id, code, onSuccess) => this.get({ path_params: [id, code], action: "CheckCodeExists", success: onSuccess })
+
     // Subjects
     readSubjects = (idCourse, onSuccess) => this.get({ path_params: [idCourse], action: "CourseSubject", success: onSuccess});
     saveSubjects = (idCourse, idSubjects, onSuccess) => { 
