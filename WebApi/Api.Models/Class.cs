@@ -6,7 +6,7 @@ namespace Api.Models
         public string Period { get; set; }
         public string Number { get; set; }
 
-        public int IdTermCourseSubject { get; set; }
+        public int? IdTermCourseSubject { get; set; }
         public TermCourseSubject TermCourseSubject { get; set; }
 
         public int IdProfessor { get; set; }

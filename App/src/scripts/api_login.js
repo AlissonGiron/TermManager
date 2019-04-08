@@ -12,15 +12,11 @@ class Login extends Api {
                 password: password
             },
             success: (responseJSON, response) => {
-                if (response.status === 401) {
-                    alert('Usuário ou senha incorretos');
-                    return;
-                }
-
-                if (response.status === 200){
-                    root.jwt_token = responseJSON.token;
-                    root.isLoggedIn = true;
-                }
+                root.jwt_token = responseJSON.token;
+                root.isLoggedIn = true;
+            },
+            error: () => {
+                alert('Usuário ou senha incorretos');
             }
         });
     }

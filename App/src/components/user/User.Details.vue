@@ -112,14 +112,13 @@
 
         var vm = this;
 
-        api.checkUsernameExists(0, this.model.Name, function(status) {
+        api.checkUsernameExists(0, this.model.UserName, function(status) {
           if(status)
           {
              vm.snackbarCurrentMessage = vm.snackbarMessages[0];
              vm.snackbar = true;
              return;
           }
-          
           api.post({ 
             data: vm.model,
             success: () => { 
@@ -143,7 +142,7 @@
 
         var vm = this;
 
-        api.checkUsernameExists(this.model.Id, this.model.Name, function(status) {
+        api.checkUsernameExists(this.model.Id, this.model.UserName, function(status) {
           if(status)
           {
              vm.snackbarCurrentMessage = vm.snackbarMessages[0];

@@ -17,7 +17,7 @@ class Options
 class Api {
     constructor(name) {
         this.name = name;
-        this.api_url = "http://localhost:44320/api/";
+        this.api_url = "https://localhost:44320/api/";
     }
 
     get = options => this.doRequest(this.createValidOptions(requestTypes.GET, options));
@@ -111,7 +111,7 @@ class Api {
                                                 : response.text().then(this.logRequest);
 
     fetchError = (errorCallback, response) => errorCallback ? response.text().then((data) => errorCallback(data, response))
-                                                       : response.text().then(this.logRequest);
+                                                            : response.text().then(this.logRequest);
 
     doRequest = options => fetch(options.url, options.fetch_options)
                                 .then((data) => {
