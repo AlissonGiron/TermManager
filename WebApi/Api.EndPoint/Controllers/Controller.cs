@@ -54,7 +54,7 @@ namespace Api.EndPoint.Controllers
             return Delete(entity);
         }
 
-        protected IActionResult Create<TItem>(TItem entity) where TItem : class, new()
+        protected virtual IActionResult Create<TItem>(TItem entity) where TItem : class, new()
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Api.EndPoint.Controllers
             }
         }
 
-        protected IActionResult Edit<TItem>(TItem entity) where TItem : class, new()
+        protected virtual IActionResult Edit<TItem>(TItem entity) where TItem : class, new()
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Api.EndPoint.Controllers
             }
         }
 
-        protected IActionResult Delete<TItem>(TItem entity) where TItem : class, new()
+        protected virtual IActionResult Delete<TItem>(TItem entity) where TItem : class, new()
         {
             try
             {
@@ -103,7 +103,7 @@ namespace Api.EndPoint.Controllers
             }
         }
 
-        protected IActionResult Read<TItem>(Query<TItem> query = null) where TItem : class, new()
+        protected virtual IActionResult Read<TItem>(Query<TItem> query = null) where TItem : class, new()
         {
             return new JsonResult(_service.Read<TItem>(query), new JsonSerializerSettings()
             {

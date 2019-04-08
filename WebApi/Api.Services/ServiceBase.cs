@@ -11,7 +11,7 @@ namespace Api.Services
 {
     public class ServiceBase : IServiceBase
     {
-        private Context _context;
+        protected Context _context;
 
         public ServiceBase(Context context) => _context = context;
 

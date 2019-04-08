@@ -49,7 +49,7 @@
         { icon: 'assignment', text: 'Disciplinas', route: '/subject' },
         { icon: 'assessment', text: 'Cursos', route: '/course' },
         { icon: 'calendar_today', text: 'Semestres', route: '/term' },
-        { icon: 'accessibility', text: 'Turmas', route: '/term' },
+        { icon: 'accessibility', text: 'Turmas', route: '/class' },
         { icon: 'transit_enterexit', text: 'Sair', route: '/' }
       ]
     })

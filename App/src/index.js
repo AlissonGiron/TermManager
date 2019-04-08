@@ -18,6 +18,9 @@ import termDetails from "./components/term/Term.Details.vue"
 import Subject from "./components/subject/Subject.vue"
 import subjectDetails from "./components/subject/Subject.Details.vue"
 
+import Class from "./components/class/Class.vue"
+import classDetails from "./components/class/Class.Details.vue"
+
 import Login from "./components/Login.vue"
 
 Vue.component('layout', Layout)
@@ -36,6 +39,8 @@ const routes = [
     { path: '/term/create/:id', component: termDetails, name: "termDetails", props: true },
     { path: '/subject', component: Subject },
     { path: '/subject/create/:id', component: subjectDetails, name: "subjectDetails", props: true },
+    { path: '/class', component: Class },
+    { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
     { path: '*', redirect: '/' }
 ]
 
