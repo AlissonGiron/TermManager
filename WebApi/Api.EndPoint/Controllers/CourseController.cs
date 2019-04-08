@@ -13,6 +13,9 @@ namespace Api.EndPoint.Controllers
 
         public CourseController(ICourseService service): base(service) { }
 
+        [HttpGet("CheckCodeExists/{id}/{code}")]
+        public IActionResult CheckCodeExists(int id, string code) => Ok(_service.Count(new Query<Course>().Filter(s => s.Code == code && s.Id != id)) > 0);
+
         [HttpGet("CourseSubject/{id}")]
         public virtual IActionResult ReadSubject(int id) => Read(new Query<Subject>().Filter(s => id > 0 ? s.Courses.Any(v => v.IdCourse == id) : true).Track(false));
 

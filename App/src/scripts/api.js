@@ -104,10 +104,14 @@ class Api {
                                                 ? response.text().then((data) => successCallback(this.formatResponse(data), response))
                                                 : response.text().then(this.logRequest);
 
-    fetchError = (errorCallback, err) => errorCallback ? errorCallback(err) : console.log('Fetch Error :-S', err);
+    fetchError = (errorCallback, response) => errorCallback ? response.text().then((data) => errorCallback(data, response))
+                                                       : response.text().then(this.logRequest);
 
     doRequest = options => fetch(options.url, options.fetch_options)
-                                .then((data) => this.fetchSuccess(options.success, data))
+                                .then((data) => {
+                                    if (!data.ok) { throw data }
+                                    this.fetchSuccess(options.success, data);
+                                })
                                 .catch((data) => this.fetchError(options.error, data));
 }
 

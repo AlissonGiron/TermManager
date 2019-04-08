@@ -205,6 +205,17 @@
       </v-dialog>
     </v-layout>
 
+    <v-snackbar v-model="snackbar"
+        :multi-line="true"
+        color="red"
+        :timeout="5000"
+      >
+      Já existe um curso com esse código
+      <v-btn dark flat @click="snackbar = false">
+        Ok
+      </v-btn>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -223,6 +234,7 @@
           skill_valid: true,
           goal_valid: true,
           competence_valid: true,
+          snackbar: false,
           title: "Curso",
           dialog_Skill: false,
           dialog_Competence: false,
@@ -273,14 +285,22 @@
     methods: {
       create: function() {
         if(!this.$refs.form.validate()) return;
-
         var vm = this;
-        api.post({ 
-          data: this.model,
-          success: (data) => { 
-            vm.$router.push('/course/create/' + data.id)
+
+        api.checkCodeExists(0, this.model.Code, function(status) {
+          if(status)
+          {
+             vm.snackbar = true;
+             return;
           }
-        });
+          
+          api.post({ 
+            data: vm.model,
+            success: (data) => { 
+              vm.$router.push('/course/create/' + data.id)
+            }
+          });
+        })
       },
       remove (item) {
         const index = this.selected_disciplines.indexOf(item.id)
@@ -290,16 +310,25 @@
         if(!this.$refs.form.validate()) return;
 
         var vm = this;
-        api.saveSubjects(this.id, this.selected_disciplines, (data) => 
-        { 
-          api.put({
-            data: vm.model, 
-            path_params: [vm.id],
-            success: () => { 
-              alert("Item editado com sucesso");
-              vm.$router.push(vm.gobackUrl);
-            }
-          }); 
+
+        api.checkCodeExists(this.model.Id, this.model.Code, function(status) {
+          if(status)
+          {
+             vm.snackbar = true;
+             return;
+          }
+          
+          api.saveSubjects(vm.id, vm.selected_disciplines, (data) => 
+          { 
+            api.put({
+              data: vm.model, 
+              path_params: [vm.id],
+              success: () => { 
+                alert("Item editado com sucesso");
+                vm.$router.push(vm.gobackUrl);
+              }
+            }); 
+          })
         })
       },
       getItem: function(id) {

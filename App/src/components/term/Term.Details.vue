@@ -8,20 +8,37 @@
         <v-toolbar-title class="grey--text text--darken-4">{{ title }}</v-toolbar-title>
     </v-toolbar>
 
-      <v-container style='background-color: white;'  grid-list-sm class="pa-4">
+      <v-container style='background-color: white;' grid-list-sm class="pa-4">
         <div class="xs6">
+        <v-form ref="form">
           <v-layout id="fields" row wrap>
             <v-flex xs6>
-              <v-text-field type="number" v-model="model.SemesterNumber" label="Número do Semestre"></v-text-field>
+              <v-select 
+                v-model="model.SemesterNumber"
+                :items="semesters"
+                label="Selecione um semestre do ano"
+              ></v-select>
             </v-flex>
             <v-flex xs6>
-              <v-text-field type="number" v-model="model.Year" label="Ano"></v-text-field>
+              <v-text-field type="number" v-model="model.Year" label="Ano" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório', (v) => !(parseInt(v) < 0) || 'Digite um valor maior que 0']"></v-text-field>
             </v-flex>
           </v-layout>
-          <v-btn v-if="this.id > 0" color="warning" @click="edit">Salvar</v-btn>
+        </v-form>
+          <v-btn v-if="parseInt(this.id) > 0" color="warning" @click="edit">Salvar</v-btn>
           <v-btn v-else color="success" @click="create">Salvar</v-btn>
         </div>
       </v-container>
+
+      <v-snackbar v-model="snackbar"
+        :multi-line="true"
+        color="red"
+        :timeout="5000"
+      >
+      Esse semestre já está cadastrado
+      <v-btn dark flat @click="snackbar = false">
+        Ok
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -32,23 +49,25 @@
   export default {
     name: 'termDetails',
     props: {
-        id: Number
+        id: String
     },
     data: function() {
       return {
         title: "Semestre",
         gobackUrl: "/term",
+        snackbar: false,
         model: {
           id: 0,
-          SemesterNumber: 0,
+          SemesterNumber: 1,
           Year: 0,
-        }
+        },
+        semesters: [1, 2]
       }
     },
     created() {
-      if(this.id > 0)
+      if(parseInt(this.id) > 0)
       {
-        this.getItem(this.id);
+        this.getItem(parseInt(this.id));
       }
     },
     methods: {
@@ -56,25 +75,44 @@
         if(!this.$refs.form.validate()) return;
 
         var vm = this;
-        api.post({ 
-          data: this.model,
-          success: (data) => { 
-            vm.$router.push('/term/create/' + data.id)
+
+        api.checkTermExists(0, vm.model.SemesterNumber, vm.model.Year, function(status) {
+          if(status)
+          {
+             vm.snackbar = true;
+             return;
           }
-        });
+
+          api.post({ 
+            data: vm.model,
+            success: (data) => { 
+              alert("Item salvo com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          });
+        })
       },
       edit: function() {
         if(!this.$refs.form.validate()) return;
 
         var vm = this;
-        api.put({
-          data: this.model, 
-          path_params: [this.model.id],
-          success: () => { 
-            alert("Item editado com sucesso");
-            vm.$router.push(vm.gobackUrl);
+
+        api.checkTermExists(vm.model.Id, vm.model.SemesterNumber, vm.model.Year, function(status) {
+          if(status)
+          {
+             vm.snackbar = true;
+             return;
           }
-        }); 
+
+          api.put({
+            data: vm.model, 
+            path_params: [vm.model.id],
+            success: () => { 
+              alert("Item editado com sucesso");
+              vm.$router.push(vm.gobackUrl);
+            }
+          }); 
+        })
       },
       getItem: function(id) {
         var vm = this;

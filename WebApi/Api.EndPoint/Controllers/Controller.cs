@@ -4,6 +4,7 @@ using Api.Interfaces;
 using Api.Infrastructure.Helpers;
 using Api.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.EndPoint.Controllers
 {
@@ -91,6 +92,10 @@ namespace Api.EndPoint.Controllers
                 _service.Save();
 
                 return Ok("Deletado com sucesso");
+            }
+            catch(DbUpdateException ex)
+            {
+                return BadRequest("Erro ao excluir o item, provavelmente existem referências a ele no sistema.");
             }
             catch (Exception ex)
             {
