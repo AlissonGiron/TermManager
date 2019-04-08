@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Api.Interfaces;
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.EndPoint.Controllers
 {

@@ -1,3 +1,5 @@
+import shared from './shared.js';
+
 class Options
 {
     constructor(url, action, controller, data, success, error, fetch_options, path_params) {
@@ -15,7 +17,7 @@ class Options
 class Api {
     constructor(name) {
         this.name = name;
-        this.api_url = "https://localhost:44320/api/";
+        this.api_url = "http://localhost:44320/api/";
     }
 
     get = options => this.doRequest(this.createValidOptions(requestTypes.GET, options));
@@ -30,6 +32,10 @@ class Api {
         if(!options) options = {};
         if(!options.fetch_options) options.fetch_options = {};
         if(!options.fetch_options.headers) options.fetch_options.headers = new Headers();
+
+        if (shared.data.isLoggedIn) {
+            options.fetch_options.headers.set('Authorization', 'Bearer ' + shared.data.jwt_token);
+        }
 
         if(!options.url)
         {

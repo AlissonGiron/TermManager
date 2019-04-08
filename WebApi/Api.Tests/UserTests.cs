@@ -4,18 +4,22 @@ using Api.Services;
 using Api.Models;
 using Xunit;
 
-namespace Api.Tests {
-    public class UserTests {
+namespace Api.Tests
+{
+    public class UserTests
+    {
         private UserService _service;
         private Context _context;
 
-        public UserTests() {
-            var options = new DbContextOptionsBuilder<Context>()
+        public UserTests()
+        {
+            DbContextOptions<Context> options = new DbContextOptionsBuilder<Context>()
                 .UseInMemoryDatabase(databaseName: "UserTestDatabase")
                 .Options;
 
             _context = new Context(options);
-            _service = new UserService(_context);
+            throw new System.NotImplementedException();
+            //_service = new UserService(_context);
         }
 
         [Fact]

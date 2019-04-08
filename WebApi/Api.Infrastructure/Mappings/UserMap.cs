@@ -8,7 +8,7 @@ namespace Api.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(s => s.Id);
+            builder.Ignore(m => m.Password);
         }
     }
 }
