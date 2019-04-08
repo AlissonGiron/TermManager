@@ -10,19 +10,20 @@
             </v-toolbar>
             <v-card-text>
               <v-form>
-                <v-text-field prepend-icon="person" name="login" label="Usuário" type="text"></v-text-field>
+                <v-text-field prepend-icon="person" id="username" name="login" label="Usuário" type="text" autocomplete="username"></v-text-field>
                 <v-text-field
                   prepend-icon="lock"
                   name="password"
                   label="Senha"
                   id="password"
                   type="password"
+                  autocomplete="current-password"
                 ></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary">Login</v-btn>
+              <v-btn color="primary" @click="login">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -32,9 +33,19 @@
 </template>
 
 <script>
+import {Login} from '../scripts/api_login.js'
+var api_login = new Login();
+
 export default {
-  data: () => ({
-    name: 'Login'
-  })
+  methods: {
+    login: function() {
+        let data = {
+          userName: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        }
+
+        api_login.login(this.$root, data.userName, data.password);
+    }
+  }
 };
 </script>

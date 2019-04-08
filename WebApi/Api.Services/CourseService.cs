@@ -23,7 +23,7 @@ namespace Api.Services
                     Delete(toDelete);
                 }
 
-                foreach (var subject in selectedSubjects)
+                foreach (Subject subject in selectedSubjects)
                 {
                     if (FirstOrDefault<CourseSubject>(t => t.IdCourse == id && t.IdSubject == subject.Id) != null) continue;
 

@@ -17,6 +17,9 @@ using Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Api.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Api.EndPoint
 {
@@ -37,18 +40,32 @@ namespace Api.EndPoint
                 options.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
 
-            services.AddCors();
 
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<ISubjectService, SubjectService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IGoalService, GoalService>();
-            services.AddScoped<ISkillService, SkillService>();
-            services.AddScoped<ICompetenceService, CompetenceService>();
-            services.AddScoped<ITermService, TermService>();
-            services.AddScoped<IClassService, ClassService>();
-            services.AddScoped<ILessonPlanService, LessonPlanService>();
-            services.AddScoped<ISubjectCurriculumService, SubjectCurriculumService>();
+            services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IGoalService, GoalService>();
+            services.AddTransient<ISkillService, SkillService>();
+            services.AddTransient<ICompetenceService, CompetenceService>();
+            services.AddTransient<ITermService, TermService>();
+            services.AddTransient<IClassService, ClassService>();
+            services.AddTransient<ILessonPlanService, LessonPlanService>();
+            services.AddTransient<ISubjectCurriculumService, SubjectCurriculumService>();
+
+            services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
+            new IdentityBuilder(typeof(User), services)
+                .AddSignInManager<SignInManager<User>>()
+                .AddEntityFrameworkStores<Context>()
+                .AddUserStore<UserStore<User, IdentityRole<int>, Context, int>>()
+                .AddUserManager<UserManager<User>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(o =>
@@ -64,6 +81,8 @@ namespace Api.EndPoint
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
+            services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

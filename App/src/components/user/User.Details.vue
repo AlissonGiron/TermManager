@@ -13,7 +13,7 @@
           <v-form ref="form">
             <v-layout id="fields" row wrap>
               <v-flex xs12>
-                <v-text-field v-model="model.Name" label="Nome" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
+                <v-text-field v-model="model.UserName" label="Nome" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field v-model="model.Email" label="Email" :validate-on-blur='true' :rules="[(v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail inválido']"></v-text-field>
@@ -72,7 +72,7 @@
           snackbar: false,
           model: {
             Id: 0,
-            Name: '',
+            UserName: '',
             Email: '',
             AcademicTitle: '',
             Administrator: false,

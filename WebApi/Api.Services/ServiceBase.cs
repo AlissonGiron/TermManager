@@ -29,7 +29,7 @@ namespace Api.Services
         public virtual void Delete<T>(T entity) where T : class, new() => _context.Delete(entity);
 
         public virtual void Save() => _context.SaveChanges();
-        public virtual void Dispose() => _context.Dispose();
+        public virtual void Dispose() { } // => _context.Dispose();
 
         public void BeginTransaction() => _context.Database.BeginTransaction();
         public void CommitTransaction() => _context.Database.CommitTransaction();

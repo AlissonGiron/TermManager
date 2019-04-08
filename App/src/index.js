@@ -27,7 +27,6 @@ Vue.use(Vuetify)
 
 const routes = [
     { path: '/', component: Home },
-    // { path: '/login', component: Login },
     { path: '/user', component: User },
     { path: '/user/create/:id', component: userDetails, name: "userDetails", props: true },
     { path: '/course', component: Course },
@@ -44,6 +43,10 @@ const router = new VueRouter({
 })
   
 const app = new Vue({
+    data: {
+        isLoggedIn: false,
+        jwt_token: ""
+    },
     el: '#app',
     render: h => h(App),
     router: router

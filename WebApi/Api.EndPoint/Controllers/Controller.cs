@@ -4,13 +4,12 @@ using Api.Interfaces;
 using Api.Infrastructure.Helpers;
 using Api.Models;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Api.EndPoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Controller<T> : ControllerBase where T : ModelBase, new()
+    public class Controller<T> : ControllerBase where T : class, IModel, new()
     {
         protected IServiceBase _service;
 
@@ -50,7 +49,7 @@ namespace Api.EndPoint.Controllers
         [HttpDelete("{id}")]
         public virtual IActionResult Delete(int id)
         {
-            var entity = _service.FirstOrDefault<T>(t => t.Id == id);
+            T entity = _service.FirstOrDefault<T>(t => t.Id == id);
             return Delete(entity);
         }
 

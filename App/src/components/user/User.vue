@@ -15,7 +15,7 @@
     :hide-headers="isMobile" :class="{mobile: isMobile}">
     <template v-slot:items="users">
       <tr v-if="!isMobile">
-        <td>{{ users.item.Name }}</td>
+        <td>{{ users.item.UserName }}</td>
         <td>{{ users.item.AcademicTitle }}</td>
         <td><br><v-switch v-model='users.item.Administrator' readonly></v-switch></td>
         <td><br><v-switch v-model='users.item.Coordinator' readonly></v-switch></td>
@@ -31,7 +31,7 @@
         <td>
           <v-layout row wrap>
             <v-flex xs6 data-label="Nome">
-              {{ users.item.Name }}
+              {{ users.item.UserName }}
             </v-flex>
             <v-flex xs6 data-label="Email">
               {{ users.item.Email }}
@@ -67,7 +67,7 @@ export default {
         return {
             isMobile: false,
             headers: [
-                { text: 'Nome', value: 'Name' },
+                { text: 'Nome', value: 'UserName' },
                 { text: 'Título', value: 'AcademicTitle' },
                 { text: 'Administrador', value: 'Administrator' },
                 { text: 'Coordenador', value: 'Coordinator' },

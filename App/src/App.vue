@@ -1,4 +1,4 @@
 <template>
-  <layout v-if="true" />
+  <layout v-if="this.$root.isLoggedIn" />
   <login v-else />
 </template>
