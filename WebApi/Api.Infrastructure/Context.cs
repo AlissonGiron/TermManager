@@ -1,6 +1,7 @@
 ﻿using Api.Infrastructure.Mappings;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Api.Infrastructure
 {
@@ -27,7 +28,6 @@ namespace Api.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ApplyMappings(modelBuilder);
-
             base.OnModelCreating(modelBuilder);
         }
 
@@ -48,6 +48,25 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new TermCourseSubjectMap());
             modelBuilder.ApplyConfiguration(new CourseSubjectMap());
             modelBuilder.ApplyConfiguration(new CourseUserMap());
+        }
+
+        public void Seed()
+        {
+            if (Users.Any()) return;
+
+            Users.Add(new User
+            {
+                UserName = "masteradmin",
+                NormalizedUserName = "MASTERADMIN",
+                Email = "MA@MA.COM",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
+                PasswordHash = "AQAAAAEAACcQAAAAEKCyrh8Hw9O+tClDmELUfcjo/qIAmuJpMx7tayC1zroNz5ienl4end/dDhUVjcAZrg==",
+                Administrator = true,
+                Professor = true,
+                Coordinator = true
+            });
+
+            SaveChanges();
         }
     }
 }

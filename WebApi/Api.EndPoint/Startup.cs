@@ -40,7 +40,6 @@ namespace Api.EndPoint
                 options.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
 
-
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IUserService, UserService>();
@@ -88,7 +87,7 @@ namespace Api.EndPoint
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Context context)
         {
             if (env.IsDevelopment())
             {
@@ -98,6 +97,10 @@ namespace Api.EndPoint
             {
                 app.UseHsts();
             }
+
+            context.Database.Migrate();
+
+            context.Seed();
 
             app.UseCors(builder => builder
                 .AllowAnyOrigin()

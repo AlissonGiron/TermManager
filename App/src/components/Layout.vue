@@ -25,7 +25,7 @@
         <span class="hidden-sm-and-down">Gerenciador de Aulas</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <span class="hidden-sm-and-down">Alisson</span>
+      <span class="hidden-sm-and-down">{{ this.$root.userName }}</span>
       <v-btn icon>
         <v-icon>person_pin</v-icon>
       </v-btn>

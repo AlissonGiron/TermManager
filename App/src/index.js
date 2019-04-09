@@ -50,7 +50,8 @@ const router = new VueRouter({
 const app = new Vue({
     data: {
         isLoggedIn: false,
-        jwt_token: ""
+        jwt_token: "",
+        userName: ""
     },
     el: '#app',
     render: h => h(App),

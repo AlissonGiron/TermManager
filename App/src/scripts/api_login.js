@@ -13,6 +13,7 @@ class Login extends Api {
             },
             success: (responseJSON, response) => {
                 root.jwt_token = responseJSON.token;
+                root.userName = username;
                 root.isLoggedIn = true;
             },
             error: () => {
