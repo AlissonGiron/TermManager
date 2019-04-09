@@ -160,7 +160,7 @@
         var vm = this;
 
         api.readProfessors(id, function(data) {
-          vm.professors = data.map(function(e) { return { id: e.Id, name: e.Name } });
+          vm.professors = data.map(function(e) { return { id: e.Id, name: e.UserName } });
         });
       },
       getItem: function(id) {
