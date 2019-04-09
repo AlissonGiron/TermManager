@@ -19,7 +19,7 @@
           <td>{{ classes.item.Number }}</td>
           <td>{{ classes.item.Period }}</td>
           <td>
-            <v-btn color="warning" @click="$router.push('/term/create/' + classes.item.Id)"><v-icon>edit</v-icon></v-btn>
+            <v-btn color="warning" @click="$router.push('/class/create/' + classes.item.Id)"><v-icon>edit</v-icon></v-btn>
           </td>
           <td>
             <v-btn color="error" @click="deleteItem(classes.item)"><v-icon>delete</v-icon></v-btn>
@@ -62,6 +62,7 @@ export default {
                 { text: 'Número', value: 'Number' },
                 { text: 'Período', value: 'Period' },
                 { text: '', value: '' },
+                { text: '', value: '' },
             ],
             title: 'Turmas',
             classes: [],
@@ -81,8 +82,9 @@ export default {
           if(confirm("Deseja realmente excluir esse item?"))
           {
             var vm = this;
-            api.delete({ path_params: [item.Id], success: () => vm.getClasses(), 
-            error: function(s, i) {
+            api.delete({ path_params: [item.Id], 
+              success: () => vm.getClasses(), 
+              error: function(s, i) {
                 vm.errorMessage = s;
                 vm.snackbar = true;
               }
