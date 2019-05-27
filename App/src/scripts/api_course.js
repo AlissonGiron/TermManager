@@ -35,6 +35,12 @@ class Course extends Api {
     createGoal = (idCourse, goal, onSuccess) => this.post({ action: "CourseGoal", path_params: [idCourse], data: goal, success: onSuccess});
     editGoal = (idGoal, goal, onSuccess) => this.put({ action: "CourseGoal", path_params: [idGoal], data: goal, success: onSuccess});
     deleteGoal = (idGoal, onSuccess) => this.delete({ action: "CourseGoal", path_params: [idGoal], success: onSuccess});
+
+    // nde_members
+    readNDEMembers = (idMember, onSuccess) => this.get({ action: "CourseNDEMember", path_params: [idMember], success: onSuccess});
+    createNDEMember = (idMember, member, onSuccess) => this.post({ action: "CourseNDEMember", path_params: [idMember], data: member, success: onSuccess});
+    editNDEMember = (idMember, member, onSuccess) => this.put({ action: "CourseNDEMember", path_params: [idMember], data: member, success: onSuccess});
+    deleteNDEMember = (idMember, onSuccess) => this.delete({ action: "CourseNDEMember", path_params: [idMember], success: onSuccess});
 }
 
 export {Course};

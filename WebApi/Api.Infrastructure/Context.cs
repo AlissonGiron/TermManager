@@ -15,6 +15,7 @@ namespace Api.Infrastructure
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Competence> Competences { get; set; }
+        public DbSet<NDEMember> NDEMembers { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<LessonPlan> LessonPlans { get; set; }
@@ -39,6 +40,7 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new GoalMap());
             modelBuilder.ApplyConfiguration(new SkillMap());
             modelBuilder.ApplyConfiguration(new CompetenceMap());
+            modelBuilder.ApplyConfiguration(new NDEMemberMap());
             modelBuilder.ApplyConfiguration(new TermMap());
             modelBuilder.ApplyConfiguration(new ClassMap());
             modelBuilder.ApplyConfiguration(new LessonPlanMap());
@@ -58,7 +60,7 @@ namespace Api.Infrastructure
             {
                 UserName = "masteradmin",
                 NormalizedUserName = "MASTERADMIN",
-                Email = "MA@MA.COM",
+                Email = "admin@admin.com",
                 NormalizedEmail = "ADMIN@ADMIN.COM",
                 PasswordHash = "AQAAAAEAACcQAAAAEKCyrh8Hw9O+tClDmELUfcjo/qIAmuJpMx7tayC1zroNz5ienl4end/dDhUVjcAZrg==",
                 Administrator = true,

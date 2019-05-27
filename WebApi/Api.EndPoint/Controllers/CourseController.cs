@@ -87,5 +87,26 @@ namespace Api.EndPoint.Controllers
 
         [HttpDelete("CourseGoal/{id}")]
         public virtual IActionResult DeleteGoal(int id) => Delete(_service.FirstOrDefault<Goal>(s => s.Id == id));
+
+        // NDE Members
+        [HttpGet("CourseNDEMember/{id}")]
+        public virtual IActionResult ReadNDEMember(int id) => Read(new Query<NDEMember>().Filter(s => s.IdCourse == id));
+
+        [HttpPost("CourseNDEMember/{id}")]
+        public virtual IActionResult CreateNDEMember(int id, [FromBody] NDEMember entity)
+        {
+            entity.IdCourse = id;
+            return Create(entity);
+        }
+
+        [HttpPut("CourseNDEMember/{id}")]
+        public virtual IActionResult EditNDEMember(int id, [FromBody] NDEMember entity)
+        {
+            entity.Id = id;
+            return Edit(entity);
+        }
+
+        [HttpDelete("CourseNDEMember/{id}")]
+        public virtual IActionResult DeleteNDEMember(int id) => Delete(_service.FirstOrDefault<NDEMember>(s => s.Id == id));
     }
 }
