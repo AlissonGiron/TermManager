@@ -15,5 +15,6 @@ namespace Api.Models
         public List<CourseSubject> Subjects { get; set; }
         public List<TermCourse> Terms { get; set; }
         public List<NDEMember> NDEMembers { get; set; }
+        public List<Book> Books { get; set; }
     }
 }

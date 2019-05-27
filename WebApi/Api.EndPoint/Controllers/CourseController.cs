@@ -108,5 +108,28 @@ namespace Api.EndPoint.Controllers
 
         [HttpDelete("CourseNDEMember/{id}")]
         public virtual IActionResult DeleteNDEMember(int id) => Delete(_service.FirstOrDefault<NDEMember>(s => s.Id == id));
+
+
+        // Books
+        [HttpGet("CourseBook/{id}")]
+        public virtual IActionResult ReadBook(int id) => Read(new Query<Book>().Filter(s => s.IdCourse == id));
+
+        [HttpPost("CourseBook/{id}")]
+        public virtual IActionResult CreateBook(int id, [FromBody] Book entity)
+        {
+            entity.IdCourse = id;
+            return Create(entity);
+        }
+
+        [HttpPut("CourseBook/{id}")]
+        public virtual IActionResult EditBook(int id, [FromBody] Book entity)
+        {
+            entity.Id = id;
+            return Edit(entity);
+        }
+
+        [HttpDelete("CourseBook/{id}")]
+        public virtual IActionResult DeleteBook(int id) => Delete(_service.FirstOrDefault<Book>(s => s.Id == id));
+
     }
 }

@@ -16,6 +16,7 @@ namespace Api.Infrastructure
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Competence> Competences { get; set; }
         public DbSet<NDEMember> NDEMembers { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<LessonPlan> LessonPlans { get; set; }
@@ -41,6 +42,7 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new SkillMap());
             modelBuilder.ApplyConfiguration(new CompetenceMap());
             modelBuilder.ApplyConfiguration(new NDEMemberMap());
+            modelBuilder.ApplyConfiguration(new BookMap());
             modelBuilder.ApplyConfiguration(new TermMap());
             modelBuilder.ApplyConfiguration(new ClassMap());
             modelBuilder.ApplyConfiguration(new LessonPlanMap());
