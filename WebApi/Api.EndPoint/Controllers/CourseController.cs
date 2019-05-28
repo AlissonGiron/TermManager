@@ -3,6 +3,7 @@ using Api.Interfaces;
 using Api.Models;
 using Api.Infrastructure.Helpers;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.EndPoint.Controllers
 {
@@ -21,6 +22,20 @@ namespace Api.EndPoint.Controllers
 
         [HttpPut("CourseSubject/{id}")]
         public virtual IActionResult SaveSubjects(int id, [FromBody] int[] subjects) => Ok(service.SaveSubjects(id, subjects));
+
+        [HttpGet("CourseCoordinators/{id}")]
+        public virtual IActionResult ReadCoordinators(int id) => Read(new Query<User>().Filter(s => s.Coordinator && (id > 0 ? s.Id == id : true)).Track(false));
+
+        [HttpPut("CourseCoordinators/{id}")]
+        public virtual IActionResult SaveCoordinators(int id, [FromBody] int[] coordinators) => Ok(service.SaveCoordinators(id, coordinators));
+
+        [HttpGet("CourseNDE/{id}")]
+        public virtual IActionResult ReadNDE(int id) => Read(new Query<User>().Filter(s => s.Professor && (id > 0 ? s.Id == id : true)).Track(false));
+
+        [HttpPut("CourseNDE/{id}")]
+        public virtual IActionResult SaveNDE(int id, [FromBody] int[] NDE) => Ok(service.SaveNDE(id, NDE));
+
+
 
         // Skill
 

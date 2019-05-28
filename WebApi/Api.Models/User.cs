@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Api.Models
 {
+
     public class User: IdentityUser<int>, IModel
     {
         public string AcademicTitle { get; set; }
