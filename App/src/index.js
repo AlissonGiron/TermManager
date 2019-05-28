@@ -40,6 +40,7 @@ const routes = [
     { path: '/subject/create/:id', component: subjectDetails, name: "subjectDetails", props: true },
     { path: '/class', component: Class },
     { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
+    { path: '/logout', component: Login },
     { path: '*', redirect: '/' }
 ]
 

@@ -40,6 +40,12 @@
           <v-tab>
             Competências
           </v-tab>
+          <v-tab>
+            Membros do NDE
+          </v-tab>
+          <v-tab>
+            Livros
+          </v-tab>
           
           <v-tab-item>
             <v-card flat>
@@ -113,6 +119,48 @@
                         </td>
                         <td>
                           <v-btn @click="deleteCompetence(competences.item.Id)" color="error"><v-icon>delete</v-icon></v-btn>
+                        </td>
+                    </tr>
+                  </template>
+                </v-data-table>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <v-btn color="success" @click="nde_member = {}; dialog_nde_member = true"><v-icon>add</v-icon> Novo Membro</v-btn>
+                <v-data-table :headers="headers" :items="nde_members">
+                  <template v-slot:items="nde_members">
+                    <tr>
+                        <td>{{ nde_members.item.Description }}</td>
+                        <td>
+                          <v-btn @click="openEditNDEMember(nde_members.item)" color="warning"><v-icon>edit</v-icon></v-btn>
+                        </td>
+                        <td>
+                          <v-btn @click="deleteNDEMember(nde_members.item.Id)" color="error"><v-icon>delete</v-icon></v-btn>
+                        </td>
+                    </tr>
+                  </template>
+                </v-data-table>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <v-btn color="success" @click="book = {}; dialog_book = true"><v-icon>add</v-icon> Novo Livro</v-btn>
+                <v-data-table :headers="headers" :items="books">
+                  <template v-slot:items="books">
+                    <tr>
+                        <td>{{ books.item.Description }}</td>
+                        <td>
+                          <v-btn @click="openEditBook(books.item)" color="warning"><v-icon>edit</v-icon></v-btn>
+                        </td>
+                        <td>
+                          <v-btn @click="deleteBook(books.item.Id)" color="error"><v-icon>delete</v-icon></v-btn>
                         </td>
                     </tr>
                   </template>
@@ -205,6 +253,58 @@
       </v-dialog>
     </v-layout>
 
+    <v-layout row justify-center>
+      <v-dialog v-model="dialog_nde_member" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Membro do NDE</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-form v-model="nde_member_valid">
+                    <v-text-field v-model="nde_member.Description" label="Descrição" :validate-on-blur='true' :rules="[() => !!nde_member.Description || 'Esse campo é obrigatório']"></v-text-field>
+                  </v-form>                
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="dialog_nde_member = false">Cancelar</v-btn>
+            <v-btn color="blue darken-1" flat @click="saveNDEMember()">Salvar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+
+    <v-layout row justify-center>
+      <v-dialog v-model="dialog_book" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Livro</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-form v-model="book_valid">
+                    <v-text-field v-model="book.Description" label="Descrição" :validate-on-blur='true' :rules="[() => !!book.Description || 'Esse campo é obrigatório']"></v-text-field>
+                  </v-form>                
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="dialog_book = false">Cancelar</v-btn>
+            <v-btn color="blue darken-1" flat @click="saveBook()">Salvar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+
     <v-snackbar v-model="snackbar"
         :multi-line="true"
         color="red"
@@ -234,11 +334,15 @@
           skill_valid: true,
           goal_valid: true,
           competence_valid: true,
+          nde_member_valid: true,
+          book_valid: true,
           snackbar: false,
           title: "Curso",
           dialog_Skill: false,
           dialog_Competence: false,
           dialog_Goal: false,
+          dialog_nde_member: false,
+          dialog_book: false,
           gobackUrl: "/course",
           headers: [
               { text: 'Descrição', value: 'Name' },
@@ -248,11 +352,15 @@
           skills: [],
           competences: [],
           goals: [],
+          nde_members: [],
+          books: [],
           selected_disciplines: [],
           disciplines: [],
           skill: { Description: '' },
           competence: { Description: '' },
           goal: { Description: '' },
+          nde_member: { Description: '' },
+          book: { Description: '' },
           model: {
             id: 0,
             Name: '',
@@ -340,6 +448,8 @@
             vm.readGoals();
             vm.readCompetences();
             vm.readSubjects();
+            vm.readNDEMembers();
+            vm.readBooks();
         }});
       },
       goback: function() {
@@ -456,6 +566,62 @@
       deleteCompetence: function(id) {
         var vm = this;
         api.deleteCompetence(id, (data) => { vm.readCompetences() })
+      },
+
+      // nde_members
+      readNDEMembers: function() {
+        var vm = this;
+        vm.dialog_nde_member = false;
+        api.readNDEMembers(this.id, (data) => { vm.nde_members = data })
+      },
+      openEditNDEMember: function(member) {
+          this.nde_member = member;
+          this.dialog_nde_member = true;
+      },
+      saveNDEMember: function() {
+        if(!this.nde_member_valid) return;
+
+        var vm = this;
+
+        if(this.nde_member.Id)
+        {
+          api.editNDEMember(this.nde_member.Id, this.nde_member, (data) => { vm.readNDEMembers() })
+        }
+        else {
+          api.createNDEMember(this.id, this.nde_member, (data) => { vm.readNDEMembers() })
+        }
+      },
+      deleteNDEMember: function(id) {
+        var vm = this;
+        api.deleteNDEMember(id, (data) => { vm.readNDEMembers() })
+      },
+
+      // Books
+      readBooks: function() {
+        var vm = this;
+        vm.dialog_book = false;
+        api.readBooks(this.id, (data) => { vm.books = data })
+      },
+      openEditBook: function(book) {
+          this.book = book;
+          this.dialog_book = true;
+      },
+      saveBook: function() {
+        if(!this.book_valid) return;
+
+        var vm = this;
+
+        if(this.book.Id)
+        {
+          api.editBook(this.book.Id, this.book, (data) => { vm.readBooks() })
+        }
+        else {
+          api.createBook(this.id, this.book, (data) => { vm.readBooks() })
+        }
+      },
+      deleteBook: function(id) {
+        var vm = this;
+        api.deleteBook(id, (data) => { vm.readBooks() })
       }
     }
   }

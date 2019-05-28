@@ -50,7 +50,7 @@
         { icon: 'assessment', text: 'Cursos', route: '/course' },
         { icon: 'calendar_today', text: 'Semestres', route: '/term' },
         { icon: 'accessibility', text: 'Turmas', route: '/class' },
-        { icon: 'transit_enterexit', text: 'Sair', route: '/' }
+        { icon: 'transit_enterexit', text: 'Sair', route: '/logout' }
       ]
     })
   }
