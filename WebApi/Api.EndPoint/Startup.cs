@@ -46,7 +46,6 @@ namespace Api.EndPoint
             services.AddTransient<IGoalService, GoalService>();
             services.AddTransient<ISkillService, SkillService>();
             services.AddTransient<ICompetenceService, CompetenceService>();
-            services.AddTransient<ITermService, TermService>();
             services.AddTransient<IClassService, ClassService>();
             services.AddTransient<ILessonPlanService, LessonPlanService>();
             services.AddTransient<ISubjectCurriculumService, SubjectCurriculumService>();

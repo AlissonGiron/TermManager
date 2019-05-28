@@ -16,8 +16,9 @@
     <template v-slot:items="classes">
       <tr v-if="!isMobile">
           <td>{{ classes.item.Code }}</td>
-          <td>{{ classes.item.Number }}</td>
           <td>{{ classes.item.Period }}</td>
+          <td>{{ classes.item.SemesterNumber }}</td>
+          <td>{{ classes.item.Year }}</td>
           <td>
             <v-btn color="warning" @click="$router.push('/class/create/' + classes.item.Id)"><v-icon>edit</v-icon></v-btn>
           </td>
@@ -32,7 +33,7 @@
     </template>
   </v-data-table>
 
-  <v-snackbar v-model="snackbar"
+    <v-snackbar v-model="snackbar"
         :multi-line="true"
         color="red"
         :timeout="5000"
@@ -58,8 +59,9 @@ export default {
             isMobile: false,
             headers: [
                 { text: 'Código', value: 'Code' },
-                { text: 'Número', value: 'Number' },
                 { text: 'Período', value: 'Period' },
+                { text: 'Semestre', value: 'SemesterNumber' },
+                { text: 'Ano', value: 'Year' },
                 { text: '', value: '' },
                 { text: '', value: '' },
             ],

@@ -17,13 +17,10 @@ namespace Api.Infrastructure
         public DbSet<Competence> Competences { get; set; }
         public DbSet<NDEMember> NDEMembers { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<Term> Terms { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<LessonPlan> LessonPlans { get; set; }
         public DbSet<SubjectCurriculum> SubjectCurriculums { get; set; }
 
-        public DbSet<TermCourse> TermCourses { get; set; }
-        public DbSet<TermCourseSubject> TermCourseSubjects { get; set; }
         public DbSet<CourseSubject> CourseSubjects { get; set; }
         public DbSet<CourseUser> CourseUsers { get; set; }
 
@@ -43,13 +40,10 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new CompetenceMap());
             modelBuilder.ApplyConfiguration(new NDEMemberMap());
             modelBuilder.ApplyConfiguration(new BookMap());
-            modelBuilder.ApplyConfiguration(new TermMap());
             modelBuilder.ApplyConfiguration(new ClassMap());
             modelBuilder.ApplyConfiguration(new LessonPlanMap());
             modelBuilder.ApplyConfiguration(new SubjectCurriculumMap());
 
-            modelBuilder.ApplyConfiguration(new TermCourseMap());
-            modelBuilder.ApplyConfiguration(new TermCourseSubjectMap());
             modelBuilder.ApplyConfiguration(new CourseSubjectMap());
             modelBuilder.ApplyConfiguration(new CourseUserMap());
         }

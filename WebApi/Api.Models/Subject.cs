@@ -14,6 +14,6 @@ namespace Api.Models
         public int PracticalWorkload { get; set; }
 
         public List<CourseSubject> Courses { get; set; }
-        public List<TermCourseSubject> Terms { get; set; }
+        public List<Class> Classes { get; set; }
     }
 }

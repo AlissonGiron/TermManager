@@ -28,7 +28,7 @@
               ></v-select>
             </v-flex>
             <v-flex xs6>
-              <v-text-field type="number" v-model="model.Number" label="Ano" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
+              <v-text-field type="number" v-model="model.Year" label="Ano" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
             </v-flex>
             
             <v-flex xs6>
