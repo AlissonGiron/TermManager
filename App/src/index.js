@@ -49,7 +49,7 @@ const router = new VueRouter({
   
 const app = new Vue({
     data: {
-        isLoggedIn: false,
+        isLoggedIn: true,
         jwt_token: "",
         userName: ""
     },

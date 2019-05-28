@@ -13,17 +13,50 @@
         <v-form ref="form" v-model="valid">
 
           <v-layout id="fields" row wrap>
-            <v-flex xs12>
+            <v-flex xs6>
               <v-text-field v-model="model.Code" label="Código" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
             </v-flex>
-            <v-flex xs12>
+            <v-flex xs6>
               <v-text-field v-model="model.Period" label="Período" :validate-on-blur='true' :rules="[(v) => !!v || 'Esse campo é obrigatório']"></v-text-field>
             </v-flex>
-            <v-flex xs12>
-              <v-text-field type="number" v-model="model.Number" label="Número" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
+
+            <v-flex xs6>
+              <v-select 
+                v-model="model.SemesterNumber"
+                :items="semesters"
+                label="Selecione um semestre do ano"
+              ></v-select>
             </v-flex>
+            <v-flex xs6>
+              <v-text-field type="number" v-model="model.Number" label="Ano" :validate-on-blur='true' :rules="[(v) => v >= 0 || 'Esse campo não pode ser negativo']"></v-text-field>
+            </v-flex>
+            
+            <v-flex xs6>
+              <p>Curso</p>
+              <v-select 
+                v-model="model.IdCourse"
+                item-value="id"
+                item-text="name" 
+                :items="courses"
+                label="Curso"
+                solo
+                @change="readSubjects"
+              ></v-select>
+            </v-flex>
+
+            <v-flex xs6>
+              <p>Disciplina</p>
+              <v-select 
+                v-model="model.IdSubject"
+                item-value="id"
+                item-text="name" 
+                :items="subjects"
+                label="Disciplina"
+                solo
+              ></v-select>
+            </v-flex>
+
             <v-flex xs12>
-              <br>
               <p>Professor</p>
               <v-select 
                 v-model="model.IdProfessor"
@@ -34,6 +67,7 @@
                 solo
               ></v-select>
             </v-flex>
+
           </v-layout>
         </v-form>
           <v-btn v-if="parseInt(this.id) > 0" color="warning" @click="edit">Salvar</v-btn>
@@ -74,10 +108,16 @@
             id: 0,
             Code: '',
             Period: '',
-            Number: 0,
-            IdProfessor: 0
+            IdProfessor: 0,
+            IdCourse: 0,
+            IdSubject: 0,
+            SemesterNumber: 1,
+            Year: 0,
           },
-          professors: []
+          professors: [],
+          subjects: [],
+          courses: [],
+          semesters: [1, 2]
         }
     },
     created() {
@@ -86,12 +126,10 @@
       if(parseInt(vm.id) > 0)
       {
         vm.getItem(vm.id);
-        this.readProfessors(vm.id);
       }
-      else {
-        this.readProfessors(0);
-      }
-
+      
+      this.readProfessors();
+      this.readCourses();
     },
     methods: {
       create: function() {
@@ -138,6 +176,7 @@
         if(!isValid) return;
 
         var vm = this;
+
         api.checkCodeExists(this.model.Id, this.model.Code, function(status) {
           if(status)
           {
@@ -156,11 +195,27 @@
           }); 
         })
       },
-      readProfessors: function(id) {
+      readProfessors: function() {
         var vm = this;
 
-        api.readProfessors(id, function(data) {
+        api.readProfessors(vm.model.IdProfessor, function(data) {
           vm.professors = data.map(function(e) { return { id: e.Id, name: e.UserName } });
+        });
+      },
+      readCourses: function() {
+        var vm = this;
+
+        api.readCourses(vm.model.IdCourse, function(data) {
+          vm.courses = data.map(function(e) { return { id: e.Id, name: e.Name } });
+
+          vm.readSubjects();
+        });
+      },
+      readSubjects: function() {
+        var vm = this;
+      
+        api.readSubjects(0, vm.model.IdCourse, function(data) {
+          vm.subjects = data.map(function(e) { return { id: e.Id, name: e.Name } });
         });
       },
       getItem: function(id) {

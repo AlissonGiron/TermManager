@@ -10,6 +10,14 @@ class Class extends Api {
     readProfessors = function(id, onSuccess) {
         this.get({ action: "ClassProfessors", path_params: [id], success: onSuccess });
     }
+
+    readCourses = function(id, onSuccess) {
+        this.get({ action: "ClassCourses", path_params: [id], success: onSuccess });
+    }
+
+    readSubjects = function(id, courseId, onSuccess) {
+        this.get({ action: "ClassSubjects", path_params: [courseId, id], success: onSuccess });
+    }
 }
 
 export {Class};

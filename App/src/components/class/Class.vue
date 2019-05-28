@@ -44,7 +44,6 @@
     </v-snackbar>
 
   </div>
-
 </template>
 
 <script>

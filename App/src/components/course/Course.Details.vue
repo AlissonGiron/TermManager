@@ -356,6 +356,24 @@
         })
       },
 
+      // coordinators
+      readCoordinators: function() {
+        var vm = this;
+        api.readCoordinator(0, (data) => 
+        { 
+          vm.coordinators = data.map(function(e) { return { id: e.Id, name: [e.Id, e.UserName].join(" | ") } }) 
+        })
+      },
+
+       // NDE
+      readNDE: function() {
+        var vm = this;
+        api.readNDE(0, (data) => 
+        { 
+          vm.nde = data.map(function(e) { return { id: e.Id, name: [e.Id, e.UserName].join(" | ") } }) 
+        })
+      },
+
       // skills
       readSkills: function() {
         var vm = this;
