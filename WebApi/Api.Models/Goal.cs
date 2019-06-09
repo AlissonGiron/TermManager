@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Api.Models
 {
     public class Goal: ModelBase
@@ -6,5 +8,12 @@ namespace Api.Models
         public Course Course { get; set; }
 
         public string Description { get; set; }
+
+        public List<SubjectCurriculumGoal> SubjectCurriculums { get; set; }
+
+        public Goal()
+        {
+            SubjectCurriculums = new List<SubjectCurriculumGoal>();
+        }
     }
 }

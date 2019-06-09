@@ -8,5 +8,11 @@ namespace Api.Models
             Coordinator,
             NDE
         }
+
+        public enum BibliographyType
+        {
+            Basic,
+            Complementary
+        }
     }
 }

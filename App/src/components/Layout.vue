@@ -49,6 +49,7 @@
         { icon: 'assignment', text: 'Disciplinas', route: '/subject' },
         { icon: 'assessment', text: 'Cursos', route: '/course' },
         { icon: 'accessibility', text: 'Turmas', route: '/class' },
+        { icon: 'assignment', text: 'Planos de Ensino', route: '/subjectCurriculum' },
         { icon: 'transit_enterexit', text: 'Sair', route: '/' }
       ]
     })

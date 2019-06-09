@@ -10,5 +10,12 @@ namespace Api.Models
         public Course Course { get; set; }
 
         public string Description { get; set; }
+
+        public List<SubjectCurriculumBook> SubjectCurriculums { get; set; }
+
+        public Book()
+        {
+            SubjectCurriculums = new List<SubjectCurriculumBook>();
+        }
     }
 }

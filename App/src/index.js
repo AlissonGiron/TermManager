@@ -12,11 +12,11 @@ import userDetails from "./components/user/User.Details.vue"
 import Course from "./components/course/Course.vue"
 import courseDetails from "./components/course/Course.Details.vue"
 
-import Term from "./components/term/Term.vue"
-import termDetails from "./components/term/Term.Details.vue"
-
 import Subject from "./components/subject/Subject.vue"
 import subjectDetails from "./components/subject/Subject.Details.vue"
+
+import SubjectCurriculum from "./components/subjectCurriculum/SubjectCurriculum.vue"
+import subjectCurriculumDetails from "./components/subjectCurriculum/SubjectCurriculum.Details.vue"
 
 import Class from "./components/class/Class.vue"
 import classDetails from "./components/class/Class.Details.vue"
@@ -34,12 +34,12 @@ const routes = [
     { path: '/user/create/:id', component: userDetails, name: "userDetails", props: true },
     { path: '/course', component: Course },
     { path: '/course/create/:id', component: courseDetails, name: "courseDetails", props: true },
-    { path: '/term', component: Term },
-    { path: '/term/create/:id', component: termDetails, name: "termDetails", props: true },
     { path: '/subject', component: Subject },
     { path: '/subject/create/:id', component: subjectDetails, name: "subjectDetails", props: true },
     { path: '/class', component: Class },
     { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
+    { path: '/subjectCurriculum', component: SubjectCurriculum },
+    { path: '/subjectCurriculum/create/:id', component: subjectCurriculumDetails, name: "subjectCurriculumDetails", props: true },
     { path: '/logout', component: Login },
     { path: '*', redirect: '/' }
 ]
