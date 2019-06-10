@@ -7,7 +7,7 @@
 
       <v-toolbar-title class="grey--text text--darken-4">Planos de Ensino</v-toolbar-title>
     </v-toolbar>
-    <v-btn color="success" @click="$router.push('/subjectCurriculum/create/1/1')"><v-icon>add</v-icon> Novo</v-btn>
+    <v-btn color="success" @click="dialog = true"><v-icon>add</v-icon> Novo</v-btn>
   <v-data-table
     :headers="headers"
     :items="subjectCurriculums"
@@ -15,19 +15,19 @@
     :hide-headers="isMobile" :class="{mobile: isMobile}">
     <template v-slot:items="subjectCurriculums">
       <tr v-if="!isMobile">
+            <td>
+              {{ subjectCurriculums.item.Id }}
+            </td>
           <td>
-            <v-btn color="warning" @click="$router.push('/subjectCurriculum/create/' + subjectCurriculums.item.Id)"><v-icon>edit</v-icon></v-btn>
-          </td>
-          <td>
-            <v-btn color="error" @click="deleteItem(subjectCurriculums.item)"><v-icon>delete</v-icon></v-btn>
+            <v-btn color="warning" @click="$router.push('/subjectCurriculum/pdf/' + subjectCurriculums.item.Id)"><v-icon>remove_red_eye</v-icon></v-btn>
           </td>
       </tr>
       <tr v-else>
         <td>
           <v-layout row wrap>
-            <!-- <v-flex xs6 data-label="Código">
-              {{ subjects.item.Code }}
-            </v-flex> -->
+            <v-flex xs6 data-label="Código">
+              {{ subjectCurriculums.item.Id }}
+            </v-flex>
           </v-layout>
         </td>
       </tr>
@@ -45,6 +45,47 @@
       </v-btn>
     </v-snackbar>
 
+
+
+    <v-dialog
+      v-model="dialog"
+      max-width="500"
+    >
+      <v-card>
+        <v-card-title class="headline">Selecione o curso e a disciplina</v-card-title>
+
+        <v-card-text>
+          <br>
+          <p>Curso</p>
+          <v-select 
+            v-model="IdCourse"
+            item-value="id"
+            item-text="name" 
+            :items="courses"
+            label="Curso"
+            solo
+          ></v-select>
+
+          <br>
+          <p>Disciplina</p>
+          <v-select 
+            v-model="IdSubject"
+            item-value="id"
+            item-text="name" 
+            :items="subjects"
+            label="Disciplina"
+            solo
+          ></v-select>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="success" @click="goToCreate()"><v-icon>add</v-icon> Continuar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
   </div>
 </template>
 
@@ -58,37 +99,49 @@ export default {
     data() {
         return {
             isMobile: false,
+            IdCourse: 0,
+            IdSubject: 0,
+            dialog: false,
             headers: [
-                { text: '', value: '' },
+                { text: 'Id', value: '' },
                 { text: '', value: '' },
             ],
             title: 'Planos de Ensino',
             subjectCurriculums: [],
             errorMessage: '',
-            snackbar: false
+            snackbar: false,
+            courses: [],
+            subjects: [],
         };
     },
     beforeMount() {
         this.getsubjectCurriculums()
+    },
+    created() {
+        var vm = this;
+
+        api.readCourses(0, function(data) {
+          vm.courses = data.map(function(e) { return { id: e.Id, name: e.Name } });
+        });
+
+        api.readSubjects(0, function(data) {
+          vm.subjects = data.map(function(e) { return { id: e.Id, name: e.Name } });
+        });
     },
     methods: {
         getsubjectCurriculums: function() {
           var vm = this;
           api.get({ success: function(e) { vm.subjectCurriculums = e; }});
         },
-        deleteItem: function(item) {
-          if(confirm("Deseja realmente excluir esse item?"))
+        goToCreate() {
+          if(this.IdCourse == 0 || this.IdSubject == 0)
           {
-            var vm = this;
-            api.delete({ path_params: [item.Id], 
-              success: (s) => vm.getsubjectCurriculums(),
-              error: function(s, i) {
-                vm.errorMessage = s;
-                vm.snackbar = true;
-              }
-            });
-          } 
+            return;
+          }
+
+          this.$router.push('/subjectCurriculum/create/'+ this.IdCourse +'/'+ this.IdSubject);
         }
+        
     }
 };
 </script>

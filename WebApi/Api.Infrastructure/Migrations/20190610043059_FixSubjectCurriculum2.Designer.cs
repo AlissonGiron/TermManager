@@ -4,14 +4,16 @@ using Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20190610043059_FixSubjectCurriculum2")]
+    partial class FixSubjectCurriculum2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,6 +345,8 @@ namespace Api.Infrastructure.Migrations
 
                     b.Property<int?>("CoordinatorId");
 
+                    b.Property<int?>("CourseId");
+
                     b.Property<DateTime>("DateAvaliacao");
 
                     b.Property<DateTime>("DateValidacaoNDE");
@@ -357,9 +361,13 @@ namespace Api.Infrastructure.Migrations
 
                     b.Property<int>("IdSubject");
 
+                    b.Property<int?>("ProfessorId");
+
                     b.Property<string>("ProgramContentM1");
 
                     b.Property<string>("ProgramContentM2");
+
+                    b.Property<int?>("SubjectId");
 
                     b.Property<string>("TeachingMethod");
 
@@ -367,11 +375,11 @@ namespace Api.Infrastructure.Migrations
 
                     b.HasIndex("CoordinatorId");
 
-                    b.HasIndex("IdCourse");
+                    b.HasIndex("CourseId");
 
-                    b.HasIndex("IdProfessor");
+                    b.HasIndex("ProfessorId");
 
-                    b.HasIndex("IdSubject");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("SubjectCurriculums");
                 });
@@ -665,18 +673,15 @@ namespace Api.Infrastructure.Migrations
 
                     b.HasOne("Api.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("IdCourse")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("Api.Models.User", "Professor")
                         .WithMany()
-                        .HasForeignKey("IdProfessor")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ProfessorId");
 
                     b.HasOne("Api.Models.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("IdSubject")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SubjectId");
                 });
 
             modelBuilder.Entity("Api.Models.SubjectCurriculumBook", b =>

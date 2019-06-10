@@ -262,12 +262,6 @@
       vm.model.IdSubject = vm.IdSubject;
 
       vm.getDetails();
-
-      vm.model.Ementa = "a";
-      vm.model.Avaliacao = "aval";
-      vm.model.ProgramContentM1 = "m1";
-      vm.model.ProgramContentM2 = "m2";
-      vm.model.TeachingMethod = "ensino";
     },
     methods: {
       create: function() {

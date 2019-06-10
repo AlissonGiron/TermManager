@@ -20,6 +20,11 @@ namespace Api.Infrastructure
         public DbSet<Class> Classes { get; set; }
         public DbSet<LessonPlan> LessonPlans { get; set; }
         public DbSet<SubjectCurriculum> SubjectCurriculums { get; set; }
+        public DbSet<SubjectCurriculumBook> SubjectCurriculumBooks { get; set; }
+        public DbSet<SubjectCurriculumGoal> SubjectCurriculumGoals { get; set; }
+        public DbSet<SubjectCurriculumSkill> SubjectCurriculumSkills { get; set; }
+        public DbSet<SubjectCurriculumNDEMember> SubjectCurriculumNDEMembers { get; set; }
+        public DbSet<SubjectCurriculumCompetence> SubjectCurriculumCompetences { get; set; }
 
         public DbSet<CourseSubject> CourseSubjects { get; set; }
         public DbSet<CourseUser> CourseUsers { get; set; }
@@ -49,6 +54,12 @@ namespace Api.Infrastructure
             modelBuilder.ApplyConfiguration(new ClassMap());
             modelBuilder.ApplyConfiguration(new LessonPlanMap());
             modelBuilder.ApplyConfiguration(new SubjectCurriculumMap());
+
+            modelBuilder.ApplyConfiguration(new SubjectCurriculumBookMap());
+            modelBuilder.ApplyConfiguration(new SubjectCurriculumGoalMap());
+            modelBuilder.ApplyConfiguration(new SubjectCurriculumCompetenceMap());
+            modelBuilder.ApplyConfiguration(new SubjectCurriculumSkillMap());
+            modelBuilder.ApplyConfiguration(new SubjectCurriculumNDEMemberMap());
 
             modelBuilder.ApplyConfiguration(new CourseSubjectMap());
             modelBuilder.ApplyConfiguration(new CourseUserMap());

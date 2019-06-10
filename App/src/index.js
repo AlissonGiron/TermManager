@@ -17,6 +17,7 @@ import subjectDetails from "./components/subject/Subject.Details.vue"
 
 import SubjectCurriculum from "./components/subjectCurriculum/SubjectCurriculum.vue"
 import subjectCurriculumDetails from "./components/subjectCurriculum/SubjectCurriculum.Details.vue"
+import subjectCurriculumPDF from "./components/subjectCurriculum/SubjectCurriculum.PDF.vue"
 
 import Class from "./components/class/Class.vue"
 import classDetails from "./components/class/Class.Details.vue"
@@ -43,6 +44,7 @@ const routes = [
     { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
     { path: '/subjectCurriculum', component: SubjectCurriculum },
     { path: '/subjectCurriculum/create/:IdCourse/:IdSubject', component: subjectCurriculumDetails, name: "subjectCurriculumDetails", props: true },
+    { path: '/subjectCurriculum/pdf/:id', component: subjectCurriculumPDF, name: "subjectCurriculumPDF", props: true },
     { path: '/classplan', component: ClassPlan },
     { path: '/classplan/create/:id', component: classPlanDetails, name: "classPlanDetails", props: true },
     { path: '/logout', component: Login },

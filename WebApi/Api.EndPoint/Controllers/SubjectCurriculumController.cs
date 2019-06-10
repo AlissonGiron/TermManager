@@ -13,6 +13,12 @@ namespace Api.EndPoint.Controllers
     {
         public SubjectCurriculumController(ISubjectCurriculumService service): base(service) { }
 
+        [HttpGet("GetCourses/{id}")]
+        public virtual IActionResult GetCourses(int id) => Read(new Query<Course>().Track(false));
+
+        [HttpGet("GetSubjects/{id}")]
+        public virtual IActionResult GetSubjects(int id) => Read(new Query<Subject>().Track(false));
+
         protected override IActionResult Create<TItem>(TItem entity)
         {
             try
@@ -34,6 +40,25 @@ namespace Api.EndPoint.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        public override IActionResult Get(int id)
+        {
+            var model = _service.FirstOrDefault(new Query<SubjectCurriculum>().Track(false).Filter(s => s.Id == id)
+                .Include(s => s.NDEMembers.Select(v => v.NDEMember))
+                .Include(s => s.Skills.Select(v => v.Skill))
+                .Include(s => s.Goals.Select(v => v.Goal))
+                .Include(s => s.Competences.Select(v => v.Competence))
+                .Include(s => s.Bibliography.Select(v => v.Book))
+                .Include(s => s.Course)
+                .Include(s => s.Subject)
+                .Include(s => s.Professor)
+            );
+
+            return new JsonResult(new { Model = model }, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
         }
 
         [HttpGet("GetCollections/{idCourse}/{idSubject}")]
