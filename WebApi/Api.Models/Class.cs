@@ -17,5 +17,8 @@ namespace Api.Models
         public int SemesterNumber { get; set; }
 
         public int Year { get; set; }
+
+        public int? IdClassPlan { get; set; }
+        public ClassPlan ClassPlan { get; set; }
     }
 }

@@ -21,6 +21,8 @@ import subjectCurriculumDetails from "./components/subjectCurriculum/SubjectCurr
 import Class from "./components/class/Class.vue"
 import classDetails from "./components/class/Class.Details.vue"
 
+import ClassPlan from "./components/classplan/ClassPlan.vue"
+
 import Login from "./components/Login.vue"
 
 Vue.component('layout', Layout)
@@ -40,6 +42,7 @@ const routes = [
     { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
     { path: '/subjectCurriculum', component: SubjectCurriculum },
     { path: '/subjectCurriculum/create/:id', component: subjectCurriculumDetails, name: "subjectCurriculumDetails", props: true },
+    { path: '/classplan', component: ClassPlan },
     { path: '/logout', component: Login },
     { path: '*', redirect: '/' }
 ]

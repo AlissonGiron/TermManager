@@ -17,7 +17,7 @@ class Options
 class Api {
     constructor(name) {
         this.name = name;
-        this.api_url = "https://localhost:44320/api/";
+        this.api_url = "http://localhost:44320/api/";
     }
 
     get = options => this.doRequest(this.createValidOptions(requestTypes.GET, options));

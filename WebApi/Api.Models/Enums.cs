@@ -9,6 +9,12 @@ namespace Api.Models
             NDE
         }
 
+        public enum ClassType
+        {
+            Theory,
+            Practical
+        }
+
         public enum BibliographyType
         {
             Basic,

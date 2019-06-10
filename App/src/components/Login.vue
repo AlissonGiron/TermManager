@@ -10,7 +10,15 @@
             </v-toolbar>
             <v-card-text>
               <v-form>
-                <v-text-field prepend-icon="person" id="username" name="login" label="Usuário" type="text" autocomplete="username"></v-text-field>
+                <v-text-field
+                  prepend-icon="person"
+                  id="username"
+                  name="login"
+                  label="Usuário"
+                  type="text"
+                  autocomplete="username"
+                  @keyup.enter="login"
+                ></v-text-field>
                 <v-text-field
                   prepend-icon="lock"
                   name="password"
@@ -18,6 +26,7 @@
                   id="password"
                   type="password"
                   autocomplete="current-password"
+                  @keyup.enter="login"
                 ></v-text-field>
               </v-form>
             </v-card-text>
@@ -33,19 +42,23 @@
 </template>
 
 <script>
-import {Login} from '../scripts/api_login.js'
+import { Login } from "../scripts/api_login.js";
 var api_login = new Login();
 
 export default {
   methods: {
     login: function() {
-        let data = {
-          userName: document.getElementById('username').value,
-          password: document.getElementById('password').value
-        }
+      let data = {
+        userName: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
 
-        api_login.login(this.$root, data.userName, data.password);
+      api_login.login(this.$root, data.userName, data.password);
     }
+  },
+  mounted() {
+    this.$root.isLoggedIn = false;
+    this.$router.push('/');
   }
 };
 </script>

@@ -25,7 +25,7 @@
         <span class="hidden-sm-and-down">Gerenciador de Aulas</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <span class="hidden-sm-and-down">Alisson</span>
+      <span class="hidden-sm-and-down">{{ this.$root.userName }}</span>
       <v-btn icon>
         <v-icon>person_pin</v-icon>
       </v-btn>
@@ -50,7 +50,8 @@
         { icon: 'assessment', text: 'Cursos', route: '/course' },
         { icon: 'accessibility', text: 'Turmas', route: '/class' },
         { icon: 'assignment', text: 'Planos de Ensino', route: '/subjectCurriculum' },
-        { icon: 'transit_enterexit', text: 'Sair', route: '/' }
+        { icon: 'subject', text: 'Planos de Aula', route: '/classplan' },
+        { icon: 'transit_enterexit', text: 'Sair', route: '/logout' }
       ]
     })
   }
