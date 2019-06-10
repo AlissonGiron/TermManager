@@ -11,6 +11,8 @@ namespace Api.Models
 
         public string Description { get; set; }
 
+        public ICollection<ClassPlanBookItem> BookItems { get; set; }
+
         public List<SubjectCurriculumBook> SubjectCurriculums { get; set; }
 
         public Book()
