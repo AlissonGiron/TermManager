@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" fixed app dark>
+    <v-navigation-drawer class="main-navigation-drawer" v-model="drawer" fixed app dark>
       <v-list>
         <template v-for="item in menu">
           <v-list-tile v-bind:key="item.text" @click="$router.push(item.route)">
@@ -16,7 +16,7 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app fixed dark>
+    <v-toolbar class="main-toolbar" app fixed dark>
       <v-toolbar-title style="width: 300px" @click="$router.push('/')" class="unifacens_home">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-avatar size="32px" tile>
@@ -30,7 +30,7 @@
         <v-icon>person_pin</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-content dark>
+    <v-content class="main-content" dark>
       <div fluid fill-height>
           <router-view></router-view>
       </div>
@@ -65,5 +65,25 @@
     .unifacens_content {
         background-color: #222129;
         color: white;
+    }
+
+    @media print {
+      .main-toolbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+          padding: 0 !important;
+      }
+
+      .main-navigation-drawer {
+          width: 0 !important;
+          display: none !important;
+      }
+
+      .main-content {
+          width: 100vw !important;
+          height: 100vh !important;
+          padding: 0 !important;
+      }
     }
 </style>

@@ -49,6 +49,7 @@ namespace Api.EndPoint
             services.AddTransient<IClassService, ClassService>();
             services.AddTransient<ILessonPlanService, LessonPlanService>();
             services.AddTransient<ISubjectCurriculumService, SubjectCurriculumService>();
+            services.AddTransient<IClassPlanService, ClassPlanService>();
 
             services.AddIdentityCore<User>(options =>
             {
@@ -81,7 +82,6 @@ namespace Api.EndPoint
                 });
 
             services.AddCors();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -108,7 +108,6 @@ namespace Api.EndPoint
                 .AllowCredentials());
 
             app.UseAuthentication();
-
             app.UseMvc();
         }
     }

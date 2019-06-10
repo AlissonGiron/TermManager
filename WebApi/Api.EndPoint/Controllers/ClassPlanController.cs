@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Api.Interfaces;
+using Api.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.EndPoint.Controllers
 {
-    public class ClassPlanController
+    [ApiController]
+    public class ClassPlanController : Controller<ClassPlan>
     {
+        public ClassPlanController(IClassPlanService service) : base(service) { } 
     }
 }
