@@ -39,7 +39,7 @@ const routes = [
     { path: '/class', component: Class },
     { path: '/class/create/:id', component: classDetails, name: "classDetails", props: true },
     { path: '/subjectCurriculum', component: SubjectCurriculum },
-    { path: '/subjectCurriculum/create/:id', component: subjectCurriculumDetails, name: "subjectCurriculumDetails", props: true },
+    { path: '/subjectCurriculum/create/:IdCourse/:IdSubject', component: subjectCurriculumDetails, name: "subjectCurriculumDetails", props: true },
     { path: '/logout', component: Login },
     { path: '*', redirect: '/' }
 ]

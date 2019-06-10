@@ -7,7 +7,7 @@
 
       <v-toolbar-title class="grey--text text--darken-4">Planos de Ensino</v-toolbar-title>
     </v-toolbar>
-    <v-btn color="success" @click="$router.push('/subjectCurriculum/create/0')"><v-icon>add</v-icon> Novo</v-btn>
+    <v-btn color="success" @click="$router.push('/subjectCurriculum/create/1/1')"><v-icon>add</v-icon> Novo</v-btn>
   <v-data-table
     :headers="headers"
     :items="subjectCurriculums"
